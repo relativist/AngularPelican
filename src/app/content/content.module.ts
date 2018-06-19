@@ -7,6 +7,11 @@ import {ContentComponent} from './content.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import {DropdownDirective} from './shared/directives/dropdown.directive';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReportComponent } from './report/report.component';
+import { ManageComponent } from './manage/manage.component';
+import { FriendsComponent } from './friends/friends.component';
+import { DayDescriptionComponent } from './day-description/day-description.component';
 
 @NgModule({
   imports: [
@@ -19,7 +24,12 @@ import {DropdownDirective} from './shared/directives/dropdown.directive';
     ContentComponent,
     HeaderComponent,
     SidebarComponent,
-    DropdownDirective
+    DropdownDirective,
+    DashboardComponent,
+    ReportComponent,
+    ManageComponent,
+    FriendsComponent,
+    DayDescriptionComponent
   ],
   providers: [
   ]

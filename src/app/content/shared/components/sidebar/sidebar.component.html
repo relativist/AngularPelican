@@ -2,29 +2,28 @@
   <div class="sidebar-container">
     <div class="sidebar-header">
       <div class="brand">
-        <div class="logo">
-          <span class="l l1"></span>
-          <span class="l l2"></span>
-          <span class="l l3"></span>
-          <span class="l l4"></span>
-          <span class="l l5"></span>
+        <div class="logo" style="margin-bottom: 20px">
+          <img style="position:absolute" width="50" height="50" src="assets/pel.png">
+          <div style="margin-left: 70px">Pelican</div>
         </div>
-        Бухгалтерия
       </div>
     </div>
     <nav class="menu">
       <ul class="nav metismenu">
         <li routerLinkActive="active" >
-          <a [routerLink]="['/system','bill']"> <i class="fa fa-building-o"></i> Счет </a>
+          <a [routerLink]="['/content','dashboard']"> <i class="fa fa-calendar"></i> Dashboard </a>
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="['/system','history']"> <i class="fa fa-flash"></i> История </a>
+          <a [routerLink]="['/content','report']"> <i class="fa fa-leaf"></i> Report </a>
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="['/system','planning']"> <i class="fa fa-archive"></i> Планирование </a>
+          <a [routerLink]="['/content','manage']"> <i class="fa fa-edit"></i> Manage </a>
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="['/system','records']"> <i class="fa fa-plus-square"></i> Запись </a>
+          <a [routerLink]="['/content','friends']"> <i class="fa fa-users"></i> Friends </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/content','day']"> <i class="fa fa-sun-o"></i> Now </a>
         </li>
       </ul>
     </nav>
