@@ -1,0 +1,101 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "robot",
+      "email": "admin@mail.ru",
+      "password": "123456",
+      "name": "Администратор"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "category_parent_id": 0,
+      "name": "Спорт",
+      "daily": false,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0
+    },
+    {
+      "id": 2,
+      "category_parent_id": 1,
+      "name": "Планка",
+      "daily": true,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0
+    },
+    {
+      "id": 3,
+      "category_parent_id": 0,
+      "name": "Java",
+      "daily": false,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0
+    },
+    {
+      "id": 4,
+      "category_parent_id": 1,
+      "name": "Youtube Spring",
+      "daily": false,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0
+    },
+    {
+      "id": 5,
+      "category_parent_id": 1,
+      "name": "Книга",
+      "daily": true,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 300,
+      "disposable_done": 20
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "category_id": 2,
+      "score": 0,
+      "date": "2.06.2018"
+    },
+    {
+      "id": 2,
+      "category_id": 5,
+      "score": 20,
+      "date": "3.06.2018"
+    },
+    {
+      "id": 3,
+      "category_id": 5,
+      "score": 20,
+      "date": "6.06.2018"
+    },
+    {
+      "id": 4,
+      "category_id": 5,
+      "score": 20,
+      "date": "7.06.2018"
+    },
+    {
+      "id": 5,
+      "category_id": 5,
+      "score": 20,
+      "date": "8.06.2018"
+    },
+    {
+      "id": 6,
+      "category_id": 5,
+      "score": 20,
+      "date": "12.06.2018"
+    }
+  ]
+}

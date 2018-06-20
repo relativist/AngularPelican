@@ -12,11 +12,16 @@ import { ReportComponent } from './report/report.component';
 import { ManageComponent } from './manage/manage.component';
 import { FriendsComponent } from './friends/friends.component';
 import { DayDescriptionComponent } from './day-description/day-description.component';
+import {UserService} from './shared/services/user-service';
+import {CategoryService} from './shared/services/category-service';
+import {EventService} from './shared/services/event-service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
-    ContentRoutingModule
+    ContentRoutingModule,
   ],
   declarations: [
     ContentPageComponent,
@@ -32,6 +37,9 @@ import { DayDescriptionComponent } from './day-description/day-description.compo
     DayDescriptionComponent
   ],
   providers: [
+    UserService,
+    CategoryService,
+    EventService
   ]
 })
 
