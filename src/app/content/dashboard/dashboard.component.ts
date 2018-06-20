@@ -6,6 +6,8 @@ import {Category} from '../shared/models/category';
 import {EventService} from '../shared/services/event-service';
 import {EventApp} from '../shared/models/event-app';
 import * as moment from 'moment';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {ProgressDay} from '../shared/models/progress-day';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +18,10 @@ export class DashboardComponent implements OnInit {
 
   isLoaded = false;
   user: User;
+  format = 'DD.MM.YYYY';
+  events: EventApp[] = [];
+  progresses: ProgressDay[] = [];
+  categories: Category[] = [];
 
   constructor(private us: UserService,
               private cs: CategoryService,
@@ -28,11 +34,70 @@ export class DashboardComponent implements OnInit {
       this.isLoaded = true;
     });
 
-    this.es.getEvents().subscribe((eventApps: EventApp[]) => {
-      for (let i = 0; i < eventApps.length; i++) {
-        console.log(eventApps[i].date);
+    combineLatest(
+      this.us.getUserById('1'),
+      this.es.getEvents(),
+      this.cs.getCategories()
+    ).subscribe((data: [User, EventApp[], Category[]]) => {
+      this.user = data[0];
+      this.events = data[1];
+      this.categories = data[2];
+
+      const first = moment(this.events[0].date, this.format);
+      let today = moment();
+      today = today.subtract(30, 'd');
+
+      if (first.isBefore(today)) {
+        console.log('iterator');
+        today = moment();
+        this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
+        for (let i = 0; i < 29; i++) {
+          today = today.subtract(1, 'd');
+          this.progresses.push(this.calculateProcessDay(today.format(this.format)));
+        }
+      } else {
+        today = moment();
+        console.log('from first to now');
+        this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
+        for (let i = 0; i < 50; i++) {
+          const t2 = today.subtract(1, 'd');
+          this.progresses.push(this.calculateProcessDay(t2.format(this.format)));
+          if (t2.date() === first.date()) {
+            break;
+          }
+        }
       }
+      console.log(this.progresses);
+      this.isLoaded = true;
     });
+
+  }
+
+  calculateProcessDay(date: string): ProgressDay {
+    const foundEvents = this.events.filter(e => e.date === date);
+    if (foundEvents) {
+      let percent = 0;
+      const ids: number[] = [];
+      for (let i = 0; i < foundEvents.length; i++) {
+        ids.push(foundEvents[i].id);
+        const eventApp = foundEvents[i];
+        const cat = this.categories.filter(c => c.id === eventApp.category_id)[0];
+        if (cat.simple) {
+          percent += cat.score;
+          continue;
+        }
+        if (eventApp.score > 0) {
+          percent += eventApp.score * 100 / cat.score;
+        }
+      }
+      if (percent > 100) {
+        percent = 100;
+      }
+      const color = percent >= 100 ? 'success' : percent > 60 ? 'warning' : 'danger';
+      return new ProgressDay(date, ids, color, percent + '%');
+    } else {
+      return new ProgressDay(date, [], 'danger', '0%');
+    }
   }
 
 }

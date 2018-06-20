@@ -1,12 +1,5 @@
-bd:
-users: id , login, email, password, name, role
-category: id, name, parent_id,
-  type: boolean or not_boolean,
-  ended: boolean,
-  percent: number (if type:boolean)
-  number_score: number (if ended)
-event:
-  id
-  category_id
-  score
+взять меньший id у эвентов. и проитерировать до сейчас.
+или
+взять сейчас и месяц назад.
 
+отчет за все время пройденные дни и не пройденные учитывать.

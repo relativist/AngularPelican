@@ -10,30 +10,25 @@
             Общий остаток: <span class="text-success">123</span>
           </h5>
         </div>
-        <div class="card-block">
+        <div class="card-block" *ngIf="isLoaded">
 
-          <div class="row">
-            <div class="col-xs-6">
+          <div class="row" *ngFor="let prog of progresses">
+            <div class="col-xs-4">
               <a>
-              <div class="n-progress">
-                <div class="progress-bar success"  style="width: 100%;">
-                  <span>19.06.2018</span>
-                </div>
+                <div class="n-progress">
+                  <div class="progress-bar {{ prog.color }}" [ngStyle]="{width: prog.percent}">
+                    <span>{{prog.date}}</span>
+                  </div>
               </div>
               </a>
             </div>
-            <div class="col-xs-6">
-              <p *ngIf="isLoaded">
-                {{user.name}}
-              </p>
-              <p *ngIf="!isLoaded">
-                BOO
-              </p>
-            </div>
           </div>
+        </div>
 
+        <div class="card-block" *ngIf="!isLoaded">
 
         </div>
+
       </div>
     </div>
   </div>
