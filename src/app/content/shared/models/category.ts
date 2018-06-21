@@ -1,6 +1,6 @@
 export class Category {
   constructor(
-    public category_parent_id: string,
+    public category_parent_id: number,
     public name: string,
     public simple: boolean,
     public score: number,

@@ -11,6 +11,8 @@ export class ManageComponent implements OnInit {
 
   categories: Category[] = [];
   isLoaded = false;
+  isSelected = false;
+  selectedCategory: Category;
 
   constructor(private cs: CategoryService) {
     this.cs.getCategories()
@@ -23,4 +25,8 @@ export class ManageComponent implements OnInit {
   ngOnInit() {
   }
 
+  selectCategory(cat: Category) {
+    this.selectedCategory = cat;
+    this.isSelected = true;
+  }
 }

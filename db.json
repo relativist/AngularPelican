@@ -51,7 +51,7 @@
     },
     {
       "id": 5,
-      "category_parent_id": 1,
+      "category_parent_id": 0,
       "name": "Книга",
       "daily": true,
       "score": 90,

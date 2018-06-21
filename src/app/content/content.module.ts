@@ -18,12 +18,15 @@ import {EventService} from './shared/services/event-service';
 import {HttpClientModule} from '@angular/common/http';
 import { ShowCategoryComponent } from './manage/show-category/show-category.component';
 import { ManageCategoryComponent } from './manage/manage-category/manage-category.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
     HttpClientModule,
     CommonModule,
     ContentRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     ContentPageComponent,

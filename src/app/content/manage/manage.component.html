@@ -5,14 +5,22 @@
 </div>
 
 <section class="section text-center" *ngIf="!isLoaded">
-Loading...
+  Loading...
 </section>
 <section class="section" *ngIf="isLoaded">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <app-show-category
         [categories]="categories"
+        (onCategoryAdd)="selectCategory($event)"
       ></app-show-category>
+    </div>
+    <div class="col-md-4" *ngIf="isSelected">
+      <app-manage-category
+        [cat]="selectedCategory"
+        [currentCategoryId]="selectedCategory.category_parent_id"
+        [categories]="categories"
+      ></app-manage-category>
     </div>
   </div>
 </section>
