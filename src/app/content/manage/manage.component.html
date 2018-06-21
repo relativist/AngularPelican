@@ -1,3 +1,18 @@
-<p>
-  manage works!
-</p>
+<div class="title-block">
+  <h3 class="title">
+    Страница записей <span class="sparkline bar"></span>
+  </h3>
+</div>
+
+<section class="section text-center" *ngIf="!isLoaded">
+Loading...
+</section>
+<section class="section" *ngIf="isLoaded">
+  <div class="row">
+    <div class="col-md-6">
+      <app-show-category
+        [categories]="categories"
+      ></app-show-category>
+    </div>
+  </div>
+</section>

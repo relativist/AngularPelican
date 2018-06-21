@@ -16,6 +16,8 @@ import {UserService} from './shared/services/user-service';
 import {CategoryService} from './shared/services/category-service';
 import {EventService} from './shared/services/event-service';
 import {HttpClientModule} from '@angular/common/http';
+import { ShowCategoryComponent } from './manage/show-category/show-category.component';
+import { ManageCategoryComponent } from './manage/manage-category/manage-category.component';
 
 @NgModule({
   imports: [
@@ -34,7 +36,9 @@ import {HttpClientModule} from '@angular/common/http';
     ReportComponent,
     ManageComponent,
     FriendsComponent,
-    DayDescriptionComponent
+    DayDescriptionComponent,
+    ShowCategoryComponent,
+    ManageCategoryComponent
   ],
   providers: [
     UserService,
