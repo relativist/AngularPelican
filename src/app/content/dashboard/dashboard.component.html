@@ -1,36 +1,31 @@
-<section class="section">
+<div class="title-block">
+  <h3 class="title">
+    История <span class="sparkline bar"></span>
+  </h3>
+</div>
+
+<section class="section text-center" *ngIf="!isLoaded">
+  Loading...
+</section>
+<section class="section" *ngIf="isLoaded">
   <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header card-header-sm bordered">
-          <div class="header-block">
-            <h3 class="title">Результаты</h3>
-          </div>
-          <h5 class="planning-expenses pull-right">
-            Общий остаток: <span class="text-success">123</span>
-          </h5>
-        </div>
-        <div class="card-block" *ngIf="isLoaded">
-
-          <div class="row" *ngFor="let prog of progresses">
-            <div class="col-xs-4">
-              <a>
-                <div class="n-progress">
-                  <div class="progress-bar {{ prog.color }}" [ngStyle]="{width: prog.percent}">
-                    <span>{{prog.date}}</span>
-                  </div>
-              </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-block" *ngIf="!isLoaded">
-
-        </div>
-
-      </div>
+    <div class="col-md-4">
+      <app-history
+        [progresses]="progresses"
+        [selectedProgressDay]="selectedProgressDay"
+        (onDateSelect)="selectProgressDay($event)"
+      ></app-history>
+    </div>
+    <div class="col-md-4">
+      <app-day-description
+        [selectedProgressDay]="selectedProgressDay"
+        [events]="filteredEvents"
+        [categories]="categories"
+      ></app-day-description>
     </div>
   </div>
 </section>
+
+<!--(onEventEdit)="eventWasEdited($event)"-->
+
 

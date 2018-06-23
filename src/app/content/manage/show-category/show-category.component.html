@@ -1,15 +1,16 @@
 <div class="card">
   <div class="card-header bordered">
     <div class="header-block">
-      <h3 class="title">Задачи</h3>
+      <h3 class="title">Категории задач</h3>
     </div>
   </div>
   <div class="card-block">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let cat of categories">
-        <a (click)="selectCategory(cat)" >
+      <li class="list-group-item"
+          (click)="selectCategory(cat)"
+          [ngClass]="{'active': cat.id === selectedCat.id}"
+          *ngFor="let cat of categories">
           {{prettyCatName(cat)}}
-        </a>
       </li>
     </ul>
 

@@ -22,4 +22,12 @@ export class CategoryService extends BaseApi {
   getCategoryById(id: string): Observable<Category> {
     return this.get(`categories/${id}`);
   }
+
+  updateCategory(cat: Category): Observable<Category> {
+    return this.put(`categories/${cat.id}`, cat);
+  }
+
+  createCategory(cat: Category): Observable<Category> {
+    return this.post(`categories`, cat);
+  }
 }

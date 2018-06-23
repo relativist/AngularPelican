@@ -3,7 +3,7 @@ export class ProgressDay {
     public date: string,
     public category_ids: number[],
     public color: string,
-    public percent: string,
+    public percent: number,
   ) {
 
   }

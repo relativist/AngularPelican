@@ -6,7 +6,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {ReportComponent} from './report/report.component';
 import {ManageComponent} from './manage/manage.component';
 import {FriendsComponent} from './friends/friends.component';
-import {DayDescriptionComponent} from './day-description/day-description.component';
+import {DayDescriptionComponent} from './dashboard/day-description/day-description.component';
 
 const routes: Routes = [
   {path: 'content', component: ContentComponent, children: [

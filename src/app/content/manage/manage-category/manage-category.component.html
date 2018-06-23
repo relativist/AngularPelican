@@ -5,26 +5,34 @@
     </div>
   </div>
   <div class="card-block">
-
+    <div
+      class="alert alert-{{message.type}}"
+      *ngIf="message.text"
+    >{{message.text}}</div>
     <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
       <div class="form-group">
+
         <label class="control-label" for="e-select-category">Родитель:</label>
         <select
           id="e-select-category"
           class="form-control"
-          [(ngModel)]="currentCategoryId"
+          name="parentIdx"
+          [(ngModel)]="dropDownCategoryId"
           (change)="onCategoryChange()"
           [ngModelOptions]="{standalone: true}"
+          #parentIdx="ngModel"
         >
           <option
-            *ngFor="let c of categories"
+            *ngFor="let c of filteredCategories"
             [value]="c.id"
           >{{c.name}}
           </option>
         </select>
       </div>
 
-      <div  class="form-group">
+      <div
+        [ngClass]="{'has-error': name.invalid  && name.touched}"
+        class="form-group">
         <label class="control-label" for="e-category-name">Введите название</label>
         <input
           type="text"
@@ -32,12 +40,16 @@
           class="form-control"
           #name="ngModel"
           name="name"
+          required
           [ngModel]="cat.name"
         >
+        <span
+          *ngIf="name.invalid  && name.touched"
+          class="form-help-text">Не может быть пустым</span>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="e-category-value">Введите лимит</label>
+        <label class="control-label" for="e-category-value">Баллы (для bool - %, end - top max) </label>
         <input
           type="number"
           id="e-category-value"
@@ -50,26 +62,49 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label">Выберите тип</label>
-        <div>
-          <label>
-            <input class="radio" name="radios" type="radio">
-            <span>Доход</span>
-          </label>
-        </div>
-        <div>
-          <label>
-            <input class="radio" name="radios" type="radio" checked>
-            <span>Расход</span>
-          </label>
-        </div>
+        <label class="control-label" for="e-category-capacity">Обьем для конечных</label>
+        <input
+          type="number"
+          id="e-category-capacity"
+          class="form-control"
+          [ngModel]="cat.disposable_capacity"
+          name="disposable_capacity"
+          #disposable_capacity="ngModel"
+          min="1"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="is-simple">Булевая задача</label>
+        <input id="is-simple"
+               type="checkbox"
+               [checked]="cat.simple"
+               [ngModel]="cat.simple"
+               name="simple"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="is-disposable">Конечная задача</label>
+        <input id="is-disposable"
+               type="checkbox"
+               [checked]="cat.disposable"
+               [ngModel]="cat.disposable"
+               name="disposable"
+        />
       </div>
 
       <button
         type="submit"
-        class="btn btn-primary"
-
+        class="btn btn-primary pull-right"
       >Обновить
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-secondary"
+        (click)="onCreateNewCat()"
+      >Создать
       </button>
     </form>
   </div>

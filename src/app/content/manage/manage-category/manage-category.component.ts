@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../shared/models/category';
 import {FormGroup, NgForm} from '@angular/forms';
+import {CategoryService} from '../../shared/services/category-service';
+import {Message} from '../../shared/models/message';
 
 @Component({
   selector: 'app-manage-category',
@@ -11,39 +13,67 @@ export class ManageCategoryComponent implements OnInit {
 
   @Input() cat: Category;
   @Input() categories: Category[] = [];
-  @Input() currentCategoryId = 1;
+  @Input() filteredCategories: Category[] = [];
+  @Input() dropDownCategoryId = 0;
+  @Output() onCategoryEdit = new EventEmitter<Category>();
+  createNew = false;
+  message: Message;
 
-  constructor() {
+  constructor(private cs: CategoryService) {
   }
 
   ngOnInit() {
-    // if (this.cat.category_parent_id > 0) {
-    //   console.log('>');
-    //   this.currentCategoryId = this.categories.findIndex(e => e.id === this.cat.category_parent_id);
-    // } else {
-    //   console.log('else');
-    //   this.currentCategoryId = 1;
-    // }
-    console.log('constructor: ' + this.currentCategoryId);
+    this.message = new Message('success', '');
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
-    // let {capacity, name} = form.value;
-    // if (capacity < 0) {
-    //   capacity = capacity * -1;
-    // }
-    // const category = new Category(name, capacity, +this.currentCategoryId);
-    // this.sub1 = this.catService.updateCategory(category)
-    //   .subscribe((cat: Category) => {
-    //     this.onCategoryEdit.emit(cat);
-    //     this.message.text = 'Edited.';
-    //     window.setTimeout(() => this.message.text = '', 1000);
-    //   });
+    const {name, score, disposable_capacity, simple, disposable} = form.value;
+    let parentId = 0;
+    if (this.dropDownCategoryId !== 0) {
+      parentId = +this.dropDownCategoryId;
+    }
+    let cap = 0;
+    if (this.cat.disposable) {
+      cap = disposable_capacity;
+    }
+    const ctg = new Category(parentId,
+      name,
+      simple,
+      score,
+      disposable,
+      cap,
+      this.cat.disposable_done,
+      this.cat.id);
+
+    if (this.createNew) {
+      ctg.id = undefined;
+      this.cs.createCategory(ctg)
+        .subscribe((cat: Category) => {
+          this.onCategoryEdit.emit(cat);
+          // this.message.text = 'Edited.';
+          window.setTimeout(() => this.message.text = '', 1000);
+        });
+      this.createNew = false;
+    } else {
+      const children = this.categories.filter(e => e.category_parent_id === ctg.id);
+      if (children.length > 0) {
+        ctg.category_parent_id = 0;
+      }
+      this.cs.updateCategory(ctg)
+        .subscribe((cat: Category) => {
+          this.onCategoryEdit.emit(cat);
+          this.message.text = 'Edited.';
+          window.setTimeout(() => this.message.text = '', 1000);
+        });
+    }
 
   }
 
   onCategoryChange() {
-    console.log(this.currentCategoryId);
+    // console.log(this.dropDownCategoryId);
+  }
+
+  onCreateNewCat() {
+    this.createNew = true;
   }
 }

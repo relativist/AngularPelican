@@ -11,7 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportComponent } from './report/report.component';
 import { ManageComponent } from './manage/manage.component';
 import { FriendsComponent } from './friends/friends.component';
-import { DayDescriptionComponent } from './day-description/day-description.component';
+import { DayDescriptionComponent } from './dashboard/day-description/day-description.component';
 import {UserService} from './shared/services/user-service';
 import {CategoryService} from './shared/services/category-service';
 import {EventService} from './shared/services/event-service';
@@ -19,6 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { ShowCategoryComponent } from './manage/show-category/show-category.component';
 import { ManageCategoryComponent } from './manage/manage-category/manage-category.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HistoryComponent } from './dashboard/history/history.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FriendsComponent,
     DayDescriptionComponent,
     ShowCategoryComponent,
-    ManageCategoryComponent
+    ManageCategoryComponent,
+    HistoryComponent
   ],
   providers: [
     UserService,

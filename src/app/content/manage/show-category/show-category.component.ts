@@ -8,8 +8,9 @@ import {Category} from '../../shared/models/category';
 })
 export class ShowCategoryComponent implements OnInit {
 
+  @Input() selectedCat: Category;
   @Input() categories: Category[] = [];
-  @Output() onCategoryAdd = new EventEmitter<Category>();
+  @Output() onCategorySelect = new EventEmitter<Category>();
 
   constructor() {
   }
@@ -27,7 +28,7 @@ export class ShowCategoryComponent implements OnInit {
   }
 
   selectCategory(cat: Category) {
-    this.onCategoryAdd.emit(cat);
+    this.onCategorySelect.emit(cat);
   }
 
 }

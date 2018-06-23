@@ -34,7 +34,7 @@ export class BaseApi {
   }
 
   public put(url: string = '', data: any = {}): Observable<any> {
-    const some = this.http.put<any>(this.getUrl(url), data);
+    const some = this.http.put(this.getUrl(url), data);
     return some[0] ? some[0] : some;
   }
 }

@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">История выполнения</h3>
+    </div>
+  </div>
+  <!--list-group-item-success-->
+  <!--list-group-item-info-->
+  <!--list-group-item-warning-->
+  <!--list-group-item-danger-->
+  <div class="card-block">
+    <div class="list-group">
+      <div *ngFor="let prog of progresses">
+      <a class="list-group-item list-group-item-action list-group-item-{{prog.color}}"
+         [ngClass]="{'active': prog.date === selectedProgressDay.date}"
+         (click)="selectDate(prog)">
+        {{prog.date}}
+        <span class="tag tag-default tag-pill pull-xs-right">{{prog.percent | number: '1.0-0'}}%</span>
+      </a>
+      </div>
+    </div>
+  </div>

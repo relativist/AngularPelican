@@ -20,8 +20,10 @@ export class DashboardComponent implements OnInit {
   user: User;
   format = 'DD.MM.YYYY';
   events: EventApp[] = [];
+  filteredEvents: EventApp[] = [];
   progresses: ProgressDay[] = [];
   categories: Category[] = [];
+  selectedProgressDay: ProgressDay;
 
   constructor(private us: UserService,
               private cs: CategoryService,
@@ -42,13 +44,13 @@ export class DashboardComponent implements OnInit {
       this.user = data[0];
       this.events = data[1];
       this.categories = data[2];
-
+      this.categories.forEach(e => e.name = this.prettyCatName(e));
+      this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
       const first = moment(this.events[0].date, this.format);
       let today = moment();
       today = today.subtract(30, 'd');
 
       if (first.isBefore(today)) {
-        console.log('iterator');
         today = moment();
         this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
         for (let i = 0; i < 29; i++) {
@@ -57,7 +59,6 @@ export class DashboardComponent implements OnInit {
         }
       } else {
         today = moment();
-        console.log('from first to now');
         this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
         for (let i = 0; i < 50; i++) {
           const t2 = today.subtract(1, 'd');
@@ -67,7 +68,7 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      console.log(this.progresses);
+      this.selectedProgressDay = this.progresses[0];
       this.isLoaded = true;
     });
 
@@ -93,11 +94,29 @@ export class DashboardComponent implements OnInit {
       if (percent > 100) {
         percent = 100;
       }
-      const color = percent >= 100 ? 'success' : percent > 60 ? 'warning' : 'danger';
-      return new ProgressDay(date, ids, color, percent + '%');
+      const color = percent >= 100 ? 'success' : percent > 60 ? 'info' : percent > 30 ? 'warning' : 'danger';
+      return new ProgressDay(date, ids, color, percent);
     } else {
-      return new ProgressDay(date, [], 'danger', '0%');
+      return new ProgressDay(date, [], 'danger', 0);
     }
+  }
+
+  selectProgressDay(day: ProgressDay) {
+    this.filteredEvents = this.events.filter(e => e.date === day.date);
+    this.selectedProgressDay = day;
+  }
+
+  eventWasEdited(day: ProgressDay) {
+    this.selectedProgressDay = day;
+  }
+
+  prettyCatName(cat: Category): string {
+    let prefix = '';
+    if (cat.category_parent_id !== 0) {
+      const idx = this.categories.findIndex(e => e.id === cat.category_parent_id);
+      prefix = this.categories[idx].name + ': ';
+    }
+    return prefix + cat.name;
   }
 
 }

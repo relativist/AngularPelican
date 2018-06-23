@@ -1,0 +1,59 @@
+<div class="card" *ngIf="selectedProgressDay">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Детализация от {{selectedProgressDay.date}}</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <div
+      class="alert alert-{{message.type}}"
+      *ngIf="message.text"
+    >{{message.text}}
+    </div>
+    <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
+      <div class="form-group">
+
+        <label class="control-label" for="e-select-category">Выполнить задачу:</label>
+        <select
+          id="e-select-category"
+          class="form-control"
+          name="parentIdx"
+          [(ngModel)]="dropDownCategoryIdx"
+          (change)="onCategoryChange()"
+          [ngModelOptions]="{standalone: true}"
+          #parentIdx="ngModel"
+        >
+          <option
+            *ngFor="let c of categories; index as i"
+            [value]="i"
+          >{{c.name}}
+          </option>
+        </select>
+
+        <div class="form-group" *ngIf="!isSimpleCategory()">
+          <label class="control-label" for="e-category-value">Баллы </label>
+          <input
+            type="number"
+            id="e-category-value"
+            class="form-control"
+            [ngModel]="score_to_add"
+            name="score_to_add"
+            min="1"
+          >
+        </div>
+
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary "
+      > Добавить
+      </button>
+    </form>
+
+
+  </div>
+</div>
+<p *ngIf="!selectedProgressDay">
+  Loading...
+</p>
