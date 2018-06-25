@@ -26,6 +26,7 @@ export class ManageComponent implements OnInit {
       });
   }
 
+
   ngOnInit() {
   }
 
@@ -40,5 +41,6 @@ export class ManageComponent implements OnInit {
     } else {
       this.categories.push(cat);
     }
+    this.filteredCategory = this.categories.filter(c => c.category_parent_id === 0);
   }
 }

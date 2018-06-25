@@ -20,6 +20,7 @@ import { ShowCategoryComponent } from './manage/show-category/show-category.comp
 import { ManageCategoryComponent } from './manage/manage-category/manage-category.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './dashboard/history/history.component';
+import { ChartComponent } from './report/chart/chart.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { HistoryComponent } from './dashboard/history/history.component';
     DayDescriptionComponent,
     ShowCategoryComponent,
     ManageCategoryComponent,
-    HistoryComponent
+    HistoryComponent,
+    ChartComponent
   ],
   providers: [
     UserService,

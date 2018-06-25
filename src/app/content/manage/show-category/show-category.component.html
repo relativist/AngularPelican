@@ -8,9 +8,12 @@
     <ul class="list-group">
       <li class="list-group-item"
           (click)="selectCategory(cat)"
-          [ngClass]="{'active': cat.id === selectedCat.id}"
+          [ngClass]="{
+          'active': cat.id === selectedCat.id,
+          'list-group-item-warning': cat.deprecated
+          }"
           *ngFor="let cat of categories">
-          {{prettyCatName(cat)}}
+        {{prettyCatName(cat)}} {{cat.deprecated}}
       </li>
     </ul>
 

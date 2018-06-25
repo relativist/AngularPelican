@@ -4,6 +4,9 @@ import {EventApp} from '../../shared/models/event-app';
 import {Message} from '../../shared/models/message';
 import {NgForm} from '@angular/forms';
 import {Category} from '../../shared/models/category';
+import {EventService} from '../../shared/services/event-service';
+import {CategoryService} from '../../shared/services/category-service';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-day-description',
@@ -17,11 +20,10 @@ export class DayDescriptionComponent implements OnInit {
   @Input() events: EventApp[] = [];
   message: Message;
   dropDownCategoryIdx = 0;
-  score_to_add = 0;
+  score_to_add = 1;
+  @Output() onEventEdit = new EventEmitter<EventApp>();
 
-  // @Output() onEventEdit = new EventEmitter<EventApp>();
-
-  constructor() {
+  constructor(private es: EventService, private cs: CategoryService) {
     this.message = new Message('success', '');
   }
 
@@ -29,6 +31,41 @@ export class DayDescriptionComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    const {score} = form.value;
+    const cat = this.categories[this.dropDownCategoryIdx];
+    const event = new EventApp(score, cat.id, this.selectedProgressDay.date);
+
+    if (cat.disposable) {
+      console.log('dis');
+      if (cat.disposable_capacity - (score + cat.disposable_done) > 0) {
+        cat.disposable_done += score;
+      } else {
+        cat.disposable_done = cat.disposable_capacity;
+        cat.deprecated = true;
+      }
+      this.cs.getCategoryById(cat.id.toString()).subscribe((oCat: Category) => {
+        const cTmp = oCat;
+        cTmp.disposable_capacity = cat.disposable_capacity;
+        cTmp.deprecated = cat.deprecated;
+        cTmp.disposable_done = cat.disposable_done;
+        console.log('update:');
+        console.log(cTmp.toString());
+        console.log('update:');
+        combineLatest(this.cs.updateCategory(cTmp),
+          this.es.createEvent(event)).subscribe((data: [Category, EventApp]) => {
+          this.onEventEdit.emit(data[1]);
+          this.message.text = 'Created.';
+          window.setTimeout(() => this.message.text = '', 1000);
+        });
+      });
+    } else {
+      this.es.createEvent(event).subscribe((ev: EventApp) => {
+        this.onEventEdit.emit(ev);
+        this.message.text = 'Created.';
+        window.setTimeout(() => this.message.text = '', 1000);
+      });
+    }
+
 
   }
 
@@ -39,18 +76,44 @@ export class DayDescriptionComponent implements OnInit {
   onCategoryChange() {
   }
 
-  prettyCatName(cat: Category): string {
-    let prefix = '';
-    if (cat.category_parent_id !== 0) {
-      const idx = this.categories.findIndex(e => e.id === cat.category_parent_id);
-      prefix = this.categories[idx].name + ': ';
-    }
-    return prefix + cat.name;
-  }
 
   isSimpleCategory(): boolean {
-    return this.categories[this.dropDownCategoryIdx].simple;
+    const cat = this.categories[this.dropDownCategoryIdx];
+    if (cat) {
+      return cat.simple;
+    }
+    return true;
+  }
+
+  isSimpleCategoryById(catId: number): boolean {
+    const cat = this.categories.filter(e => e.id === catId);
+    if (cat && cat.length > 0) {
+      return cat[0].simple;
+    }
+    return true;
   }
 
 
+  categoryNameById(catId: number): string {
+    const cat = this.categories.filter(e => e.id === catId);
+    if (cat && cat.length > 0) {
+      let postfix = '';
+      if (cat[0].disposable) {
+        postfix = ' (' + cat[0].disposable_done + ' of ' + cat[0].disposable_capacity + ')';
+      }
+      return cat[0].name + postfix;
+    }
+    return 'undefined';
+  }
+
+  updateEvents() {
+    console.log('update');
+    for (let i = 0; i < this.events.length; i++) {
+      this.es.updateEvent(this.events[i]).subscribe((event: EventApp) => {
+        this.onEventEdit.emit(event);
+        this.message.text = 'Updated.';
+        window.setTimeout(() => this.message.text = '', 1000);
+      });
+    }
+  }
 }

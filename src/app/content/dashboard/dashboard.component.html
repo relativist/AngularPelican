@@ -20,12 +20,10 @@
       <app-day-description
         [selectedProgressDay]="selectedProgressDay"
         [events]="filteredEvents"
-        [categories]="categories"
+        [categories]="actualCategories"
+        (onEventEdit)="eventWasEdited($event)"
       ></app-day-description>
     </div>
   </div>
 </section>
-
-<!--(onEventEdit)="eventWasEdited($event)"-->
-
 

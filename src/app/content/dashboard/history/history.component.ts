@@ -14,6 +14,8 @@ export class HistoryComponent implements OnInit {
   @Input() selectedProgressDay: ProgressDay;
 
   constructor() {
+    this.selectedProgressDay = this.progresses[0];
+    this.onDateSelect.emit(this.progresses[0]);
   }
 
   ngOnInit() {

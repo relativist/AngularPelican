@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   filteredEvents: EventApp[] = [];
   progresses: ProgressDay[] = [];
   categories: Category[] = [];
+  actualCategories: Category[] = [];
   selectedProgressDay: ProgressDay;
 
   constructor(private us: UserService,
@@ -46,10 +47,10 @@ export class DashboardComponent implements OnInit {
       this.categories = data[2];
       this.categories.forEach(e => e.name = this.prettyCatName(e));
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
+      this.actualCategories = this.categories.filter(e => e.deprecated === false);
       const first = moment(this.events[0].date, this.format);
       let today = moment();
       today = today.subtract(30, 'd');
-
       if (first.isBefore(today)) {
         today = moment();
         this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
@@ -68,7 +69,7 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      this.selectedProgressDay = this.progresses[0];
+      this.selectProgressDay(this.progresses[0]);
       this.isLoaded = true;
     });
 
@@ -76,14 +77,14 @@ export class DashboardComponent implements OnInit {
 
   calculateProcessDay(date: string): ProgressDay {
     const foundEvents = this.events.filter(e => e.date === date);
-    if (foundEvents) {
+    if (foundEvents && foundEvents.length > 0) {
       let percent = 0;
       const ids: number[] = [];
       for (let i = 0; i < foundEvents.length; i++) {
         ids.push(foundEvents[i].id);
         const eventApp = foundEvents[i];
         const cat = this.categories.filter(c => c.id === eventApp.category_id)[0];
-        if (cat.simple) {
+        if (cat !== undefined && cat.simple) {
           percent += cat.score;
           continue;
         }
@@ -106,8 +107,23 @@ export class DashboardComponent implements OnInit {
     this.selectedProgressDay = day;
   }
 
-  eventWasEdited(day: ProgressDay) {
-    this.selectedProgressDay = day;
+  eventWasEdited(event: EventApp) {
+    // update day event content
+    const contains = this.events.findIndex(e => e.id === event.id);
+    if (contains >= 0) {
+      this.events[contains] = event;
+    } else {
+      this.events.push(event);
+    }
+    this.filteredEvents = this.events.filter(e => e.date === this.selectedProgressDay.date);
+
+    // recalculate day
+    this.selectedProgressDay = this.calculateProcessDay(this.selectedProgressDay.date);
+    const pgIdx = this.progresses.findIndex(e => e.date === this.selectedProgressDay.date);
+    this.progresses[pgIdx] = this.selectedProgressDay;
+
+    // update dropDown names
+    // this.categories.forEach(e => e.name = this.prettyCatName(e));
   }
 
   prettyCatName(cat: Category): string {

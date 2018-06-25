@@ -74,8 +74,21 @@
         >
       </div>
 
+      <div class="form-group" *ngIf="cat.disposable">
+        <label class="control-label" for="e-disposable_done">Уже сделано</label>
+        <input
+          type="number"
+          id="e-disposable_done"
+          class="form-control"
+          [ngModel]="cat.disposable_done"
+          name="disposable_done"
+          #disposable_done="ngModel"
+          min="1"
+        >
+      </div>
+
       <div class="form-group">
-        <label class="control-label" for="is-simple">Булевая задача</label>
+        <label class="control-label" for="is-simple">Булевая (простая)</label>
         <input id="is-simple"
                type="checkbox"
                [checked]="cat.simple"
@@ -94,9 +107,20 @@
         />
       </div>
 
+      <div class="form-group">
+        <label class="control-label" for="is-deprecated">Устаревшая</label>
+        <input id="is-deprecated"
+               type="checkbox"
+               [checked]="cat.deprecated"
+               [ngModel]="cat.deprecated"
+               name="deprecated"
+        />
+      </div>
+
       <button
         type="submit"
         class="btn btn-primary pull-right"
+        [disabled]="formGroup.invalid"
       >Обновить
       </button>
 
@@ -104,6 +128,7 @@
         type="submit"
         class="btn btn-secondary"
         (click)="onCreateNewCat()"
+        [disabled]="formGroup.invalid"
       >Создать
       </button>
     </form>

@@ -7,6 +7,7 @@ export class Category {
     public disposable: boolean,
     public disposable_capacity: number,
     public disposable_done: number,
+    public deprecated: boolean,
     public id?: number,
   ) {
 
