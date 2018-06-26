@@ -1,3 +1,20 @@
-<p>
-  chart works!
-</p>
+<section class="section">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <ngx-charts-pie-chart
+      [view]="[width, height]"
+      [results]="data"
+      [explodeSlices]="false"
+      [legend]="legend"
+      [labels]="true"
+      [doughnut]="true"
+      >
+      </ngx-charts-pie-chart>
+
+      <!--<ngx-charts-advanced-pie-chart-->
+        <!--[view]="[500, 160]"-->
+        <!--[results]="data">-->
+      <!--</ngx-charts-advanced-pie-chart>-->
+    </div>
+  </div>
+</section>

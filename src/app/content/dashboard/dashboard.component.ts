@@ -32,11 +32,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.us.getUserById('1').subscribe((u: User) => {
-      this.user = u;
-      this.isLoaded = true;
-    });
-
     combineLatest(
       this.us.getUserById('1'),
       this.es.getEvents(),

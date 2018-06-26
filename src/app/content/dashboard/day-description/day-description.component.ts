@@ -36,7 +36,6 @@ export class DayDescriptionComponent implements OnInit {
     const event = new EventApp(score, cat.id, this.selectedProgressDay.date);
 
     if (cat.disposable) {
-      console.log('dis');
       if (cat.disposable_capacity - (score + cat.disposable_done) > 0) {
         cat.disposable_done += score;
       } else {
@@ -48,9 +47,6 @@ export class DayDescriptionComponent implements OnInit {
         cTmp.disposable_capacity = cat.disposable_capacity;
         cTmp.deprecated = cat.deprecated;
         cTmp.disposable_done = cat.disposable_done;
-        console.log('update:');
-        console.log(cTmp.toString());
-        console.log('update:');
         combineLatest(this.cs.updateCategory(cTmp),
           this.es.createEvent(event)).subscribe((data: [Category, EventApp]) => {
           this.onEventEdit.emit(data[1]);

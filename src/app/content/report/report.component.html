@@ -1,3 +1,87 @@
-<p>
-  report works!
-</p>
+<div class="title-block">
+  <h3 class="title">
+    Общая динамика<span class="sparkline bar"></span>
+  </h3>
+</div>
+<div *ngIf="!isLoaded" class="text-center">
+  Loading...
+</div>
+<div *ngIf="isLoaded"></div>
+<div *ngIf="isLoaded">
+  <div class="row">
+    <div class="col-md-4">
+      <h3>Неделя</h3>
+    </div>
+    <div class="col-md-4">
+      <h3>Месяц</h3>
+    </div>
+    <div class="col-md-4">
+      <h3>Все время</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <app-chart [data]="seven" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="month" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="allTheTime" [legend]="false"></app-chart>
+    </div>
+  </div>
+
+  <div class="title-block">
+    <h3 class="title">
+      По категориям <span class="sparkline bar"></span>
+    </h3>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <app-chart [data]="reportByCat7" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="reportByCat30" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="reportByCat360" [legend]="false"></app-chart>
+    </div>
+  </div>
+
+  <div class="title-block">
+    <h3 class="title">
+      Прогресс конечных задач <span class="sparkline bar"></span>
+    </h3>
+  </div>
+
+  <div class="row" *ngFor="let c of categoriesDisposable">
+    <div class="col-xs-6">
+      <div>{{c.name}}</div>
+      <div class="n-progress">
+        <div class="progress-bar {{getCatColorClass(c)}}" [ngStyle]="{width: getCatPercent(c)+'%'}">
+          <span>{{getCatPercent(c)| number: '1.0-0'}}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="title-block">
+    <h3 class="title">
+      По под-категориям <span class="sparkline bar"></span>
+    </h3>
+  </div>
+
+
+  <div class="row" *ngFor="let cat of reportBySubCategory">
+    <div class="col-xs-6">
+      <div>
+        <h3>
+          {{cat.name}}
+        </h3>
+      </div>
+      <app-chart [data]="cat.value" [legend]="false"></app-chart>
+    </div>
+  </div>
+</div>

@@ -60,8 +60,8 @@
       "score": 90,
       "disposable": true,
       "disposable_capacity": 300,
-      "disposable_done": 300,
-      "deprecated": true,
+      "disposable_done": 290,
+      "deprecated": false,
       "id": 5
     },
     {
@@ -71,7 +71,7 @@
       "score": 90,
       "disposable": true,
       "disposable_capacity": 600,
-      "disposable_done": 0,
+      "disposable_done": 60,
       "deprecated": false,
       "id": 6
     },

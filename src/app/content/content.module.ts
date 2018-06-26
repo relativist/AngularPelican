@@ -21,14 +21,15 @@ import { ManageCategoryComponent } from './manage/manage-category/manage-categor
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './dashboard/history/history.component';
 import { ChartComponent } from './report/chart/chart.component';
+import {SharedModule} from './shared/shared.module';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     HttpClientModule,
     CommonModule,
     ContentRoutingModule,
-    ReactiveFormsModule,
-    FormsModule
+    SharedModule,
   ],
   declarations: [
     ContentPageComponent,
