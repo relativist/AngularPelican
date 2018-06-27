@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Category} from '../../shared/models/category';
 import {FormGroup, NgForm} from '@angular/forms';
 import {CategoryService} from '../../shared/services/category-service';
 import {Message} from '../../shared/models/message';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
   styleUrls: ['./manage-category.component.scss']
 })
-export class ManageCategoryComponent implements OnInit {
+export class ManageCategoryComponent implements OnInit, OnDestroy {
 
   @Input() cat: Category;
   @Input() categories: Category[] = [];
@@ -18,6 +19,8 @@ export class ManageCategoryComponent implements OnInit {
   @Output() onCategoryEdit = new EventEmitter<Category>();
   createNew = false;
   message: Message;
+  sub1: Subscription;
+  sub2: Subscription;
 
   constructor(private cs: CategoryService) {
   }
@@ -51,7 +54,7 @@ export class ManageCategoryComponent implements OnInit {
 
     if (this.createNew) {
       ctg.id = undefined;
-      this.cs.createCategory(ctg)
+      this.sub1 = this.cs.createCategory(ctg)
         .subscribe((cat: Category) => {
           this.onCategoryEdit.emit(cat);
           // this.message.text = 'Edited.';
@@ -63,7 +66,7 @@ export class ManageCategoryComponent implements OnInit {
       if (children.length > 0) {
         ctg.category_parent_id = 0;
       }
-      this.cs.updateCategory(ctg)
+      this.sub2 = this.cs.updateCategory(ctg)
         .subscribe((cat: Category) => {
           this.onCategoryEdit.emit(cat);
           this.message.text = 'Edited.';
@@ -79,5 +82,15 @@ export class ManageCategoryComponent implements OnInit {
 
   onCreateNewCat() {
     this.createNew = true;
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
+
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
   }
 }

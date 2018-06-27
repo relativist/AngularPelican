@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../shared/services/category-service';
 import {EventService} from '../shared/services/event-service';
 import {UserService} from '../shared/services/user-service';
@@ -8,13 +8,14 @@ import {User} from '../shared/models/user';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {ProgressDay} from '../shared/models/progress-day';
 import * as moment from 'moment';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
 
   isLoaded = false;
   user: User;
@@ -30,6 +31,7 @@ export class ReportComponent implements OnInit {
   reportByCat7 = [];
   reportByCat30 = [];
   reportByCat360 = [];
+  sub1: Subscription;
 
   constructor(private us: UserService,
               private cs: CategoryService,
@@ -37,7 +39,7 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    combineLatest(
+    this.sub1 = combineLatest(
       this.us.getUserById('1'),
       this.es.getEvents(),
       this.cs.getCategories()
@@ -209,5 +211,11 @@ export class ReportComponent implements OnInit {
       return cats[0].category_parent_id === parentId;
     }
     return false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 }

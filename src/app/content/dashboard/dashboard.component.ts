@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../shared/services/user-service';
 import {User} from '../shared/models/user';
 import {CategoryService} from '../shared/services/category-service';
@@ -8,13 +8,14 @@ import {EventApp} from '../shared/models/event-app';
 import * as moment from 'moment';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {ProgressDay} from '../shared/models/progress-day';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   isLoaded = false;
   user: User;
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   categories: Category[] = [];
   actualCategories: Category[] = [];
   selectedProgressDay: ProgressDay;
+  sub1: Subscription;
 
   constructor(private us: UserService,
               private cs: CategoryService,
@@ -32,7 +34,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    combineLatest(
+    this.sub1 = combineLatest(
       this.us.getUserById('1'),
       this.es.getEvents(),
       this.cs.getCategories()
@@ -128,6 +130,12 @@ export class DashboardComponent implements OnInit {
       prefix = this.categories[idx].name + ': ';
     }
     return prefix + cat.name;
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 
 }

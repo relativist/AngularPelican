@@ -1,22 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Category} from '../shared/models/category';
 import {CategoryService} from '../shared/services/category-service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss']
 })
-export class ManageComponent implements OnInit {
+export class ManageComponent implements OnInit, OnDestroy {
 
   categories: Category[] = [];
   filteredCategory: Category[] = [];
   isLoaded = false;
   selectedCategory: Category;
   cBoxIds = 0;
+  sub1: Subscription;
 
   constructor(private cs: CategoryService) {
-    this.cs.getCategories()
+    this.sub1 = this.cs.getCategories()
       .subscribe((cat: Category[]) => {
         this.categories = cat;
         this.isLoaded = true;
@@ -42,5 +44,11 @@ export class ManageComponent implements OnInit {
       this.categories.push(cat);
     }
     this.filteredCategory = this.categories.filter(c => c.category_parent_id === 0);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 }
