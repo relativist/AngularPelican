@@ -1,16 +1,22 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {HomePageComponent} from './content/home-page/home-page.component';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {HomePageComponent} from './home-page/home-page.component';
 import {ContentComponent} from './content/content.component';
-import {ManageCategoryComponent} from './content/manage/manage-category/manage-category.component';
+import {LoginComponent} from './login/login.component';
+import {NotfoundComponent} from './content/shared/components/notfound/notfound.component';
+import {AuthGuard} from './content/shared/services/auth-guard';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
-  {path: 'content', component: ContentComponent},
+  {path: 'content', component: ContentComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent},
+  // {path: '**', component: NotfoundComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    preloadingStrategy: PreloadAllModules
+  })],
   exports: [RouterModule],
 })
 

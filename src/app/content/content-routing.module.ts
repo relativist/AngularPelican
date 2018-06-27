@@ -1,12 +1,13 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {ContentComponent} from './content.component';
-import {HomePageComponent} from './home-page/home-page.component';
+import {HomePageComponent} from '../home-page/home-page.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ReportComponent} from './report/report.component';
 import {ManageComponent} from './manage/manage.component';
 import {FriendsComponent} from './friends/friends.component';
 import {DayDescriptionComponent} from './dashboard/day-description/day-description.component';
+import {AuthGuard} from './shared/services/auth-guard';
 
 const routes: Routes = [
   {path: 'content', component: ContentComponent, children: [
@@ -19,7 +20,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    preloadingStrategy: PreloadAllModules
+  })],
   exports: [RouterModule],
 })
 

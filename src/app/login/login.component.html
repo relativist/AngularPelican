@@ -1,0 +1,73 @@
+<div class="auth">
+  <div class="auth-container">
+    <div class="card">
+      <header class="auth-header">
+        <h1 class="auth-title">
+          <img width="100" class="text-center" height="100" src="assets/pel.png">
+          <br>
+          <h3 class="font-weight-bold">Plan Pelican</h3>
+        </h1>
+      </header>
+      <div class="auth-content">
+
+
+        <p class="text-xs-center">Войдите для работы</p>
+        <div
+          class="alert alert-{{message.type}}"
+          *ngIf="message.text"
+        >{{message.text}}
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div
+            [ngClass]="{'has-error': form.get('login').invalid && form.get('login').touched}"
+            class="form-group">
+            <label for="login">Логин</label>
+            <input
+              type="text"
+              class="form-control underlined"
+              id="login"
+              placeholder="Введите ваш login"
+              formControlName="login"
+            >
+            <span
+              *ngIf="form.get('login').invalid && form.get('login').touched"
+              class="form-help-text">
+      <span *ngIf="form.get('login')['errors']['required']">login should not be empty.</span>
+      <span *ngIf="form.get('login')['errors']['login']">login is not correct.</span>
+    </span>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{'has-error': form.get('password').invalid && form.get('password').touched}"
+          >
+            <label for="password">Пароль</label>
+            <input
+              type="password"
+              class="form-control underlined"
+              id="password"
+              placeholder="Пароль"
+              formControlName="password"
+            >
+            <span
+              *ngIf="form.get('password').invalid && form.get('password').touched"
+              class="form-help-text">
+              <span *ngIf="form.get('password')['errors']['required']">Password is required.</span>
+              <span
+                *ngIf="form.get('password')['errors']['minlength'] && form.get('password')['errors']['minlength']['requiredLength']">
+                Password min length is
+                {{form.get('password')['errors']['minlength']['requiredLength']}}.</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <button
+              [disabled]="form.invalid"
+              type="submit" class="btn btn-block btn-primary">Войти
+            </button>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>

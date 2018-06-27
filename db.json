@@ -4,7 +4,7 @@
       "id": 1,
       "login": "robot",
       "email": "admin@mail.ru",
-      "password": "123456",
+      "password": "robot",
       "name": "Администратор"
     }
   ],
@@ -71,7 +71,7 @@
       "score": 90,
       "disposable": true,
       "disposable_capacity": 600,
-      "disposable_done": 60,
+      "disposable_done": 210,
       "deprecated": false,
       "id": 6
     },
@@ -136,7 +136,7 @@
     {
       "id": 3,
       "category_id": 5,
-      "score": 30,
+      "score": 60,
       "date": "17.06.2018"
     },
     {
@@ -163,7 +163,7 @@
       "id": 7
     },
     {
-      "score": 55,
+      "score": 10,
       "category_id": 4,
       "date": "15.06.2018",
       "id": 8
@@ -181,7 +181,7 @@
       "id": 10
     },
     {
-      "score": 200,
+      "score": 300,
       "category_id": 8,
       "date": "22.06.2018",
       "id": 11
@@ -191,6 +191,84 @@
       "category_id": 5,
       "date": "25.06.2018",
       "id": 12
+    },
+    {
+      "score": 300,
+      "category_id": 8,
+      "date": "26.06.2018",
+      "id": 13
+    },
+    {
+      "score": 5,
+      "category_id": 10,
+      "date": "21.06.2018",
+      "id": 14
+    },
+    {
+      "score": 50,
+      "category_id": 6,
+      "date": "21.06.2018",
+      "id": 15
+    },
+    {
+      "score": 50,
+      "category_id": 6,
+      "date": "20.06.2018",
+      "id": 16
+    },
+    {
+      "score": 50,
+      "category_id": 6,
+      "date": "16.06.2018",
+      "id": 17
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "20.06.2018",
+      "id": 18
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "19.06.2018",
+      "id": 19
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "18.06.2018",
+      "id": 20
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "17.06.2018",
+      "id": 21
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "16.06.2018",
+      "id": 22
+    },
+    {
+      "score": 10,
+      "category_id": 4,
+      "date": "15.06.2018",
+      "id": 23
+    },
+    {
+      "score": 90,
+      "category_id": 4,
+      "date": "15.06.2018",
+      "id": 24
+    },
+    {
+      "score": 100,
+      "category_id": 4,
+      "date": "15.06.2018",
+      "id": 25
     }
   ]
 }

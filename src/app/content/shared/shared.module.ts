@@ -9,18 +9,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgxChartsModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
+    NgxChartsModule,
   ],
   exports: [
     ReactiveFormsModule,
     FormsModule,
-    NgxChartsModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
+    NgxChartsModule,
   ]
 })
 

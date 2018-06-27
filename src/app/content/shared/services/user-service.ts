@@ -23,4 +23,8 @@ export class UserService extends BaseApi {
     return this.get(`users/${id}`);
   }
 
+  getUserByLogin(login: string): Observable<User> {
+    return this.get(`users?login=${login}`);
+  }
+
 }
