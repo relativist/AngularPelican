@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (user.password === password) {
             this.message.text = '';
             window.localStorage.setItem('user', JSON.stringify(user));
-            this.authService.login();
+            this.authService.login(user);
             this.router.navigate(['/content', 'dashboard']);
           } else {
             this.showMessage({

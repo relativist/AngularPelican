@@ -8,6 +8,7 @@ import {EventService} from '../../shared/services/event-service';
 import {CategoryService} from '../../shared/services/category-service';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-day-description',
@@ -28,7 +29,9 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   sub3: Subscription;
   sub4: Subscription;
 
-  constructor(private es: EventService, private cs: CategoryService) {
+  constructor(private es: EventService,
+              private cs: CategoryService,
+              private authService: AuthService) {
     this.message = new Message('success', '');
   }
 
@@ -38,7 +41,7 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     const {score} = form.value;
     const cat = this.categories[this.dropDownCategoryIdx];
-    const event = new EventApp(score, cat.id, this.selectedProgressDay.date);
+    const event = new EventApp(score, cat.id, this.selectedProgressDay.date, this.authService.user.id);
 
     if (cat.disposable) {
       if (cat.disposable_capacity - (score + cat.disposable_done) > 0) {

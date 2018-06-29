@@ -1,4 +1,3 @@
-import {EventApp} from '../models/event-app';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
@@ -15,8 +14,8 @@ export class CategoryService extends BaseApi {
     return this.post('categories', event);
   }
 
-  getCategories(): Observable<Category[]> {
-    return this.getArray('categories');
+  getCategories(userId: number): Observable<Category[]> {
+    return this.getArray(`categories?userId=${userId}`);
   }
 
   getCategoryById(id: string): Observable<Category> {

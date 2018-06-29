@@ -1,12 +1,20 @@
+import {User} from '../models/user';
+
 export class AuthService {
 
   private isAuthenticated = false;
+  user: User;
 
   constructor() {
+    const u = JSON.parse(window.localStorage.getItem('user'));
+    if (u !== null) {
+      this.user = u;
+    }
   }
 
 
-  login() {
+  login(u: User) {
+    this.user = u;
     this.isAuthenticated = true;
   }
 
@@ -17,7 +25,6 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     console.log('isLoggedIn');
-    const user = JSON.parse(window.localStorage.getItem('user'));
-    return user !== null;
+    return this.user !== null;
   }
 }

@@ -4,6 +4,7 @@ import {FormGroup, NgForm} from '@angular/forms';
 import {CategoryService} from '../../shared/services/category-service';
 import {Message} from '../../shared/models/message';
 import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-manage-category',
@@ -22,7 +23,8 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   sub1: Subscription;
   sub2: Subscription;
 
-  constructor(private cs: CategoryService) {
+  constructor(private cs: CategoryService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
       cap,
       cap_done,
       false,
+      this.authService.user.id,
       this.cat.id);
 
     if (this.createNew) {

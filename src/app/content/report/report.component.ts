@@ -9,6 +9,7 @@ import {combineLatest} from 'rxjs/observable/combineLatest';
 import {ProgressDay} from '../shared/models/progress-day';
 import * as moment from 'moment';
 import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-report',
@@ -35,18 +36,19 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   constructor(private us: UserService,
               private cs: CategoryService,
+              private authService: AuthService,
               private es: EventService) {
   }
 
   ngOnInit() {
+    const userId = this.authService.user.id;
+    this.user = this.authService.user;
     this.sub1 = combineLatest(
-      this.us.getUserById('1'),
-      this.es.getEvents(),
-      this.cs.getCategories()
-    ).subscribe((data: [User, EventApp[], Category[]]) => {
-      this.user = data[0];
-      this.events = data[1];
-      this.categories = data[2];
+      this.es.getEvents(userId),
+      this.cs.getCategories(userId)
+    ).subscribe((data: [EventApp[], Category[]]) => {
+      this.events = data[0];
+      this.categories = data[1];
       this.categories.forEach(e => e.name = this.prettyCatName(e));
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
       this.seven = this.getAvgProcessedDays(7);

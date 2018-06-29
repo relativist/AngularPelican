@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Category} from '../shared/models/category';
 import {CategoryService} from '../shared/services/category-service';
 import {Subscription} from 'rxjs/Subscription';
+import {User} from '../shared/models/user';
+import {AuthService} from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-manage',
@@ -16,9 +18,11 @@ export class ManageComponent implements OnInit, OnDestroy {
   selectedCategory: Category;
   cBoxIds = 0;
   sub1: Subscription;
+  user: User;
 
-  constructor(private cs: CategoryService) {
-    this.sub1 = this.cs.getCategories()
+  constructor(private cs: CategoryService,
+              private authService: AuthService) {
+    this.sub1 = this.cs.getCategories(authService.user.id)
       .subscribe((cat: Category[]) => {
         this.categories = cat;
         this.isLoaded = true;

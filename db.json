@@ -6,10 +6,18 @@
       "email": "admin@mail.ru",
       "password": "robot",
       "name": "Администратор"
+    },
+    {
+      "id": 2,
+      "login": "guest",
+      "email": "guest@mail.ru",
+      "password": "guest",
+      "name": "Гость"
     }
   ],
   "categories": [
     {
+      "userId": 1,
       "category_parent_id": 0,
       "name": "Спорт",
       "simple": false,
@@ -21,6 +29,7 @@
       "id": 1
     },
     {
+      "userId": 1,
       "category_parent_id": 1,
       "name": "Планка",
       "simple": true,
@@ -32,6 +41,7 @@
       "id": 2
     },
     {
+      "userId": 1,
       "category_parent_id": 0,
       "name": "Java",
       "simple": false,
@@ -43,6 +53,7 @@
       "id": 3
     },
     {
+      "userId": 1,
       "category_parent_id": 3,
       "name": "Youtube Spring (мин)",
       "simple": false,
@@ -54,6 +65,7 @@
       "id": 4
     },
     {
+      "userId": 1,
       "category_parent_id": 7,
       "name": "Книга Введение",
       "simple": false,
@@ -65,17 +77,19 @@
       "id": 5
     },
     {
+      "userId": 1,
       "category_parent_id": 3,
       "name": "Книга Java EE (стр)",
       "simple": false,
       "score": 90,
       "disposable": true,
       "disposable_capacity": 600,
-      "disposable_done": 210,
+      "disposable_done": 260,
       "deprecated": false,
       "id": 6
     },
     {
+      "userId": 1,
       "category_parent_id": 0,
       "name": "Angular",
       "simple": false,
@@ -87,6 +101,7 @@
       "id": 7
     },
     {
+      "userId": 1,
       "category_parent_id": 7,
       "name": "Практика (мин)",
       "simple": false,
@@ -98,6 +113,7 @@
       "id": 8
     },
     {
+      "userId": 1,
       "category_parent_id": 1,
       "name": "Прогулка (мин)",
       "simple": false,
@@ -109,6 +125,7 @@
       "id": 9
     },
     {
+      "userId": 1,
       "category_parent_id": 1,
       "name": "Пробежка (км)",
       "simple": false,
@@ -118,163 +135,55 @@
       "disposable_done": 0,
       "deprecated": false,
       "id": 10
+    },
+    {
+      "userId": 2,
+      "category_parent_id": 1,
+      "name": "Another Cat Of Person",
+      "simple": false,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0,
+      "deprecated": false,
+      "id": 11
     }
   ],
   "events": [
     {
+      "userId": 1,
       "id": 1,
       "category_id": 2,
       "score": 0,
-      "date": "15.06.2018"
+      "date": "29.06.2018"
     },
     {
+      "userId": 2,
       "id": 2,
-      "category_id": 5,
-      "score": 20,
-      "date": "16.06.2018"
+      "category_id": 11,
+      "score": 0,
+      "date": "29.06.2018"
     },
     {
-      "id": 3,
-      "category_id": 5,
-      "score": 60,
-      "date": "17.06.2018"
-    },
-    {
-      "id": 4,
-      "category_id": 5,
-      "score": 60,
-      "date": "18.06.2018"
-    },
-    {
-      "id": 5,
-      "category_id": 5,
-      "score": 10,
-      "date": "19.06.2018"
-    },
-    {
-      "id": 6,
-      "category_id": 5,
-      "score": 40,
-      "date": "19.06.2018"
-    },
-    {
-      "category_id": 2,
-      "date": "17.06.2018",
-      "id": 7
-    },
-    {
-      "score": 10,
-      "category_id": 4,
-      "date": "15.06.2018",
-      "id": 8
-    },
-    {
-      "score": 300,
+      "score": 120,
       "category_id": 8,
-      "date": "24.06.2018",
-      "id": 9
+      "date": "29.06.2018",
+      "userId": 1,
+      "id": 3
     },
     {
-      "score": 300,
+      "score": 120,
       "category_id": 8,
-      "date": "23.06.2018",
-      "id": 10
-    },
-    {
-      "score": 300,
-      "category_id": 8,
-      "date": "22.06.2018",
-      "id": 11
-    },
-    {
-      "score": 100,
-      "category_id": 5,
-      "date": "25.06.2018",
-      "id": 12
-    },
-    {
-      "score": 300,
-      "category_id": 8,
-      "date": "26.06.2018",
-      "id": 13
-    },
-    {
-      "score": 5,
-      "category_id": 10,
-      "date": "21.06.2018",
-      "id": 14
+      "date": "28.06.2018",
+      "userId": 1,
+      "id": 4
     },
     {
       "score": 50,
       "category_id": 6,
-      "date": "21.06.2018",
-      "id": 15
-    },
-    {
-      "score": 50,
-      "category_id": 6,
-      "date": "20.06.2018",
-      "id": 16
-    },
-    {
-      "score": 50,
-      "category_id": 6,
-      "date": "16.06.2018",
-      "id": 17
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "20.06.2018",
-      "id": 18
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "19.06.2018",
-      "id": 19
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "18.06.2018",
-      "id": 20
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "17.06.2018",
-      "id": 21
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "16.06.2018",
-      "id": 22
-    },
-    {
-      "score": 10,
-      "category_id": 4,
-      "date": "15.06.2018",
-      "id": 23
-    },
-    {
-      "score": 90,
-      "category_id": 4,
-      "date": "15.06.2018",
-      "id": 24
-    },
-    {
-      "score": 100,
-      "category_id": 4,
-      "date": "15.06.2018",
-      "id": 25
-    },
-    {
-      "score": 10,
-      "category_id": 4,
       "date": "27.06.2018",
-      "id": 26
+      "userId": 1,
+      "id": 5
     }
   ]
 }

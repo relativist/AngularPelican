@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {ProgressDay} from '../shared/models/progress-day';
 import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,20 +29,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedProgressDay: ProgressDay;
   sub1: Subscription;
 
-  constructor(private us: UserService,
+  constructor(private authService: AuthService,
               private cs: CategoryService,
               private es: EventService) {
   }
 
   ngOnInit() {
+    this.user = this.authService.user;
     this.sub1 = combineLatest(
-      this.us.getUserById('1'),
-      this.es.getEvents(),
-      this.cs.getCategories()
-    ).subscribe((data: [User, EventApp[], Category[]]) => {
-      this.user = data[0];
-      this.events = data[1];
-      this.categories = data[2];
+      this.es.getEvents(this.user.id),
+      this.cs.getCategories(this.user.id)
+    ).subscribe((data: [EventApp[], Category[]]) => {
+      this.events = data[0];
+      this.categories = data[1];
       this.categories.forEach(e => e.name = this.prettyCatName(e));
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
       this.actualCategories = this.categories.filter(e => e.deprecated === false);
