@@ -10,6 +10,7 @@ import {ProgressDay} from '../shared/models/progress-day';
 import * as moment from 'moment';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../shared/services/auth.service';
+import {CalculateProcessComponent} from './calculate.process.component';
 
 @Component({
   selector: 'app-report',
@@ -24,9 +25,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   format = 'DD.MM.YYYY';
 
-  seven = [];
-  month = [];
-  allTheTime = [];
+  avg7 = [];
+  avg30 = [];
+  avg360 = [];
   categoriesDisposable: Category[] = [];
   reportBySubCategory = [];
   reportByCat7 = [];
@@ -37,7 +38,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   constructor(private us: UserService,
               private cs: CategoryService,
               private authService: AuthService,
-              private es: EventService) {
+              private es: EventService,
+              private calc: CalculateProcessComponent) {
   }
 
   ngOnInit() {
@@ -51,93 +53,18 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.categories = data[1];
       this.categories.forEach(e => e.name = this.prettyCatName(e));
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
-      this.seven = this.getAvgProcessedDays(7);
-      this.month = this.getAvgProcessedDays(30);
-      this.allTheTime = this.getAvgProcessedDays(this.events.length - 1);
+      this.avg7 = this.calc.getAvgProcessedDays(7, this.events, this.categories);
+      this.avg30 = this.calc.getAvgProcessedDays(30, this.events, this.categories);
+      this.avg360 = this.calc.getAvgProcessedDays(360, this.events, this.categories);
       this.categoriesDisposable = this.categories.filter(e => e.disposable);
-      this.reportBySubCategory = this.getReportBySubCategories();
+      this.reportBySubCategory = this.calc.getReportBySubCategories(this.categories, this.events);
       this.isLoaded = true;
-      this.reportByCat7 = this.getReportByCategories(7);
-      this.reportByCat30 = this.getReportByCategories(30);
-      this.reportByCat360 = this.getReportByCategories(360);
+      this.reportByCat7 = this.calc.getReportByCategories(7, this.events, this.categories);
+      this.reportByCat30 = this.calc.getReportByCategories(30, this.events, this.categories);
+      this.reportByCat360 = this.calc.getReportByCategories(360, this.events, this.categories);
     });
 
 
-  }
-
-  private getReportBySubCategories(): any {
-    // категории у которых дети
-    // MAP: <cat.name, [subCat.name, avgPercent]>
-    const parents = this.categories.filter(e => this.hasChildren(e));
-    const parentMap = [];
-    parents.forEach(parent => {
-      const childrenMap = [];
-      const children = this.categories.filter(c => c.category_parent_id === parent.id);
-      children.forEach(child => {
-        //  сумма прогрессов для этого ребенка за (7, 30, all)
-        const childEvents = this.events.filter(e => e.category_id === child.id && this.moreOrEqualDate(e.date, 360));
-
-        if (childEvents.length === 0) {
-          return;
-        }
-        const score = childEvents
-          .reduce((previousValue, currentValue) => previousValue += this.calculateProcessDayPerCategory(currentValue, child), 0);
-        childrenMap.push({name: child.name, value: score});
-      });
-      if (childrenMap.length > 0) {
-        parentMap.push({name: parent.name, value: childrenMap});
-      }
-    });
-    // console.log(parentMap);
-    return parentMap;
-  }
-
-  getReportByCategories(days: number): any {
-    const parents = this.categories.filter(e => this.hasChildren(e));
-    const parentMap = [];
-
-    parents.forEach(parent => {
-      let score = 0;
-      this.events
-        .filter(e => this.moreOrEqualDate(e.date, days))
-        .forEach(event => {
-          if (this.isEventOfParentCategory(event.category_id, parent.id)) {
-            score += this.calculateProcessDayPerCategory(event, this.categories.filter(c => c.id === event.category_id)[0]);
-          }
-        });
-      if (score !== 0) {
-        parentMap.push({name: parent.name, value: score});
-      }
-    });
-    // console.log(parentMap);
-    return parentMap;
-  }
-
-  private hasChildren(cat: Category): boolean {
-    const idx = this.categories.findIndex(e => e.category_parent_id === cat.id);
-    return idx >= 0;
-  }
-
-  private getAvgProcessedDays(days: number): any {
-    let today = moment();
-    const minDay = today.subtract(days, 'd');
-    today = moment();
-    const progress: ProgressDay[] = [];
-    for (let i = 0; i < this.events.length; i++) {
-      const btw = moment(this.events[i].date, this.format);
-      if (btw.isSameOrAfter(minDay) && btw.isSameOrBefore(today)) {
-        progress.push(this.calculateProcessDay(this.events[i].date));
-      }
-    }
-
-    let avgScore = 0;
-    if (progress.length > 0) {
-      avgScore = progress.reduce((previousValue, currentValue) => previousValue += currentValue.percent, 0) / progress.length;
-    }
-    const result = [];
-    result.push({name: 'Done', value: avgScore});
-    result.push({name: 'Remain', value: 100 - avgScore});
-    return result;
   }
 
   prettyCatName(cat: Category): string {
@@ -184,35 +111,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   getCatPercent(cat: Category): number {
     const percent = (100 * cat.disposable_done / cat.disposable_capacity);
     return percent > 100 ? 100 : percent;
-  }
-
-  private moreOrEqualDate(date: string, days: number) {
-    let today = moment();
-    const minDay = today.subtract(days, 'd');
-    today = moment();
-    const btw = moment(date, this.format);
-    return btw.isSameOrAfter(minDay) && btw.isSameOrBefore(today);
-  }
-
-  private calculateProcessDayPerCategory(event: EventApp, cat: Category): number {
-    let score = 0;
-    if (cat && cat.simple) {
-      score = cat.score;
-    }
-
-    if (event.score > 0) {
-      score = event.score * 100 / cat.score;
-    }
-    // console.log(event.date + ' ' + cat.name + ': ' + score);
-    return score;
-  }
-
-  private isEventOfParentCategory(catId: number, parentId: number) {
-    const cats = this.categories.filter(cat => cat.id === catId);
-    if (cats.length > 0) {
-      return cats[0].category_parent_id === parentId;
-    }
-    return false;
   }
 
   ngOnDestroy(): void {

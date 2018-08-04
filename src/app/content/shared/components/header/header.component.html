@@ -1,6 +1,6 @@
 <header class="header">
   <div class="header-block header-block-search">
-    {{ date | date:'dd.MM.yyyy'}} Here will be report of today
+    {{ date | date:'dd.MM.yyyy'}}
   </div>
   <div class="header-block header-block-nav">
     <ul class="nav-profile">
@@ -27,12 +27,12 @@
             <i class="fa fa-users icon"></i>
             Friends
           </a>
-          <a class="dropdown-item" [routerLink]="['/content','friends']">
-            <i class="fa fa-sun-o icon"></i>
-            Now
-          </a>
+          <!--<a class="dropdown-item" [routerLink]="['/content','friends']">-->
+          <!--<i class="fa fa-sun-o icon"></i>-->
+          <!--Not implemented yet-->
+          <!--</a>-->
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" (click) = "onLogout()">
+          <a class="dropdown-item" (click)="onLogout()">
             <i class="fa fa-power-off icon"></i>Выйти</a>
         </div>
       </li>

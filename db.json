@@ -84,7 +84,7 @@
       "score": 90,
       "disposable": true,
       "disposable_capacity": 600,
-      "disposable_done": 260,
+      "disposable_done": 560,
       "deprecated": false,
       "id": 6
     },
@@ -137,16 +137,28 @@
       "id": 10
     },
     {
-      "userId": 2,
-      "category_parent_id": 1,
-      "name": "Another Cat Of Person",
+      "category_parent_id": 0,
+      "name": "Посмотреть мультики",
       "simple": false,
       "score": 10,
       "disposable": false,
       "disposable_capacity": 0,
       "disposable_done": 0,
       "deprecated": false,
+      "userId": 2,
       "id": 11
+    },
+    {
+      "category_parent_id": 0,
+      "name": "Другая категория",
+      "simple": true,
+      "score": 10,
+      "disposable": false,
+      "disposable_capacity": 0,
+      "disposable_done": 0,
+      "deprecated": false,
+      "userId": 2,
+      "id": 12
     }
   ],
   "events": [
@@ -161,11 +173,11 @@
       "userId": 2,
       "id": 2,
       "category_id": 11,
-      "score": 0,
+      "score": 30,
       "date": "29.06.2018"
     },
     {
-      "score": 120,
+      "score": 500,
       "category_id": 8,
       "date": "29.06.2018",
       "userId": 1,
@@ -179,11 +191,32 @@
       "id": 4
     },
     {
-      "score": 50,
+      "score": 30,
+      "category_id": 11,
+      "date": "28.06.2018",
+      "userId": 2,
+      "id": 5
+    },
+    {
+      "score": 100,
       "category_id": 6,
       "date": "27.06.2018",
       "userId": 1,
-      "id": 5
+      "id": 6
+    },
+    {
+      "score": 100,
+      "category_id": 6,
+      "date": "30.06.2018",
+      "userId": 1,
+      "id": 7
+    },
+    {
+      "score": 100,
+      "category_id": 6,
+      "date": "28.06.2018",
+      "userId": 1,
+      "id": 8
     }
   ]
 }

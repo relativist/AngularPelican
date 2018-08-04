@@ -111,7 +111,6 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   }
 
   updateEvents() {
-    console.log('update');
     for (let i = 0; i < this.events.length; i++) {
       this.sub4 = this.es.updateEvent(this.events[i]).subscribe((event: EventApp) => {
         this.onEventEdit.emit(event);

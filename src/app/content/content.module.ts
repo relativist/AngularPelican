@@ -23,6 +23,7 @@ import { HistoryComponent } from './dashboard/history/history.component';
 import { ChartComponent } from './report/chart/chart.component';
 import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {CalculateProcessComponent} from './report/calculate.process.component';
 
 @NgModule({
   imports: [
@@ -46,9 +47,10 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
     ShowCategoryComponent,
     ManageCategoryComponent,
     HistoryComponent,
-    ChartComponent
+    ChartComponent,
   ],
   providers: [
+    CalculateProcessComponent,
     UserService,
     CategoryService,
     EventService

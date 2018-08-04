@@ -18,6 +18,10 @@ export class CategoryService extends BaseApi {
     return this.getArray(`categories?userId=${userId}`);
   }
 
+  getAllCategories(): Observable<Category[]> {
+    return this.getArray('categories');
+  }
+
   getCategoryById(id: string): Observable<Category> {
     return this.get(`categories/${id}`);
   }

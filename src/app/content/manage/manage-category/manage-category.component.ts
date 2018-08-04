@@ -32,7 +32,6 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
     const {name, score, disposable_capacity, simple, disposable, disposable_done} = form.value;
     let parentId = 0;
     if (this.dropDownCategoryId !== 0) {

@@ -47,24 +47,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.actualCategories = this.categories.filter(e => e.deprecated === false);
       const first = moment(this.events[0].date, this.format);
       let today = moment();
-      today = today.subtract(30, 'd');
-      if (first.isBefore(today)) {
-        today = moment();
-        this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
-        for (let i = 0; i < 29; i++) {
-          today = today.subtract(1, 'd');
-          this.progresses.push(this.calculateProcessDay(today.format(this.format)));
-        }
-      } else {
-        today = moment();
-        this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
-        for (let i = 0; i < 50; i++) {
-          const t2 = today.subtract(1, 'd');
-          this.progresses.push(this.calculateProcessDay(t2.format(this.format)));
-          if (t2.date() === first.date()) {
-            break;
-          }
-        }
+      this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
+      for (let i = 1; i < 15; i++) {
+        today = today.subtract(1, 'd');
+        this.progresses.push(this.calculateProcessDay(today.format(this.format)));
       }
       this.selectProgressDay(this.progresses[0]);
       this.isLoaded = true;

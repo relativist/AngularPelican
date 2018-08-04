@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class BaseApi {
 
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'http://usque.ru:3000';
 
   constructor(public http: HttpClient) {
 

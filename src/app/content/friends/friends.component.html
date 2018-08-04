@@ -1,3 +1,25 @@
-<p>
-  friends works!
-</p>
+<div class="title-block">
+  <h3 class="title">
+    Общая динамика пользователей (за неделю)<span class="sparkline bar"></span>
+  </h3>
+</div>
+<div *ngIf="!isLoaded" class="text-center">
+  <!--<app-loader></app-loader>-->
+  Loading
+</div>
+<div *ngIf="isLoaded">
+  <div *ngFor="let user of usersData">
+    <div class="col-md-8">
+      {{user.name}}
+
+      <div class="row">
+        <div class="col-md-4">
+          <app-chart [data]="user.avg_value" [legend]="false"></app-chart>
+        </div>
+        <div class="col-md-4">
+          <app-chart [data]="user.cat_value" [legend]="false"></app-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
