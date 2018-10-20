@@ -1,2 +1,12 @@
-план развития.
-вынести на прод.
+ng build --prod
+
+# Delete all containers
+docker rm $(docker ps -a -q)
+# Delete all images
+docker rmi -f $(docker images -q)
+
+docker image build -t pelican .
+
+docker run -p 3000:80 --rm pelican
+or
+docker-compose up -d
