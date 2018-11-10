@@ -5,7 +5,8 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class BaseApi {
 
-  private baseUrl = 'http://usque.ru:3000';
+  private baseUrl = 'http://localhost:8080/pelican';
+  // private baseUrl = 'http://usque.ru:3000';
 
   constructor(public http: HttpClient) {
 
@@ -16,6 +17,7 @@ export class BaseApi {
   }
 
   public getAll(url: string = ''): Observable<any> {
+    console.log('All: ', this.getUrl(url));
     return this.http.get<any>(this.getUrl(url));
   }
 
@@ -29,6 +31,8 @@ export class BaseApi {
   }
 
   public post(url: string = '', data: any = {}): Observable<any> {
+    console.log('post:', this.getUrl(url));
+    console.log(data);
     const some = this.http.post<any>(this.getUrl(url), data);
     return some[0] ? some[0] : some;
   }

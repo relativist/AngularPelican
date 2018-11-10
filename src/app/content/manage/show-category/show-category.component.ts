@@ -20,8 +20,8 @@ export class ShowCategoryComponent implements OnInit {
 
   prettyCatName(cat: Category): string {
     let prefix = '';
-    if (cat.category_parent_id !== 0) {
-      const idx = this.categories.findIndex(e => e.id === cat.category_parent_id);
+    if (cat.categoryParentId !== 0) {
+      const idx = this.categories.findIndex(e => e.id === cat.categoryParentId);
       prefix = this.categories[idx].name + ': ';
     }
     return prefix + cat.name;

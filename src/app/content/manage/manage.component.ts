@@ -24,10 +24,11 @@ export class ManageComponent implements OnInit, OnDestroy {
               private authService: AuthService) {
     this.sub1 = this.cs.getCategories(authService.user.id)
       .subscribe((cat: Category[]) => {
+        console.log(cat);
         this.categories = cat;
         this.isLoaded = true;
         this.selectedCategory = this.categories[0];
-        this.filteredCategory = this.categories.filter(c => c.category_parent_id === 0);
+        this.filteredCategory = this.categories.filter(c => c.categoryParentId === 0);
         this.cBoxIds = this.filteredCategory.findIndex(e => e.id === this.selectedCategory.id);
       });
   }
@@ -47,7 +48,7 @@ export class ManageComponent implements OnInit, OnDestroy {
     } else {
       this.categories.push(cat);
     }
-    this.filteredCategory = this.categories.filter(c => c.category_parent_id === 0);
+    this.filteredCategory = this.categories.filter(c => c.categoryParentId === 0);
   }
 
   ngOnDestroy(): void {

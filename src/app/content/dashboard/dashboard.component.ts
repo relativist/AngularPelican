@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.es.getEvents(this.user.id),
       this.cs.getCategories(this.user.id)
     ).subscribe((data: [EventApp[], Category[]]) => {
+      console.log(data);
       this.events = data[0];
       this.categories = data[1];
       this.categories.forEach(e => e.name = this.prettyCatName(e));
@@ -66,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (let i = 0; i < foundEvents.length; i++) {
         ids.push(foundEvents[i].id);
         const eventApp = foundEvents[i];
-        const cat = this.categories.filter(c => c.id === eventApp.category_id)[0];
+        const cat = this.categories.filter(c => c.id === eventApp.categoryId)[0];
         if (cat !== undefined && cat.simple) {
           percent += cat.score;
           continue;
@@ -111,8 +112,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   prettyCatName(cat: Category): string {
     let prefix = '';
-    if (cat.category_parent_id !== 0) {
-      const idx = this.categories.findIndex(e => e.id === cat.category_parent_id);
+    if (cat.categoryParentId !== 0) {
+      const idx = this.categories.findIndex(e => e.id === cat.categoryParentId);
       prefix = this.categories[idx].name + ': ';
     }
     return prefix + cat.name;

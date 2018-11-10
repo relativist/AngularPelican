@@ -67,22 +67,22 @@
           type="number"
           id="e-category-capacity"
           class="form-control"
-          [ngModel]="cat.disposable_capacity"
-          name="disposable_capacity"
-          #disposable_capacity="ngModel"
+          [ngModel]="cat.disposableCapacity"
+          name="disposableCapacity"
+          #disposableCapacity="ngModel"
           min="1"
         >
       </div>
 
       <div class="form-group" *ngIf="cat.disposable">
-        <label class="control-label" for="e-disposable_done">Уже сделано</label>
+        <label class="control-label" for="e-disposableDone">Уже сделано</label>
         <input
           type="number"
-          id="e-disposable_done"
+          id="e-disposableDone"
           class="form-control"
-          [ngModel]="cat.disposable_done"
-          name="disposable_done"
-          #disposable_done="ngModel"
+          [ngModel]="cat.disposableDone"
+          name="disposableDone"
+          #disposableDone="ngModel"
           min="1"
         >
       </div>

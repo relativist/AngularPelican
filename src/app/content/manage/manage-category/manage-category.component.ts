@@ -32,7 +32,7 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    const {name, score, disposable_capacity, simple, disposable, disposable_done} = form.value;
+    const {name, score, disposableCapacity, simple, disposable, disposableDone} = form.value;
     let parentId = 0;
     if (this.dropDownCategoryId !== 0) {
       parentId = +this.dropDownCategoryId;
@@ -40,8 +40,8 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
     let cap = 0;
     let cap_done = 0;
     if (this.cat.disposable) {
-      cap = disposable_capacity;
-      cap_done = disposable_done;
+      cap = disposableCapacity;
+      cap_done = disposableDone;
     }
     const ctg = new Category(parentId,
       name,
@@ -64,9 +64,9 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
         });
       this.createNew = false;
     } else {
-      const children = this.categories.filter(e => e.category_parent_id === ctg.id);
+      const children = this.categories.filter(e => e.categoryParentId === ctg.id);
       if (children.length > 0) {
-        ctg.category_parent_id = 0;
+        ctg.categoryParentId = 0;
       }
       this.sub2 = this.cs.updateCategory(ctg)
         .subscribe((cat: Category) => {

@@ -68,7 +68,7 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
       for (let i = 0; i < foundEvents.length; i++) {
         ids.push(foundEvents[i].id);
         const eventApp = foundEvents[i];
-        const cat = categories.filter(c => c.id === eventApp.category_id)[0];
+        const cat = categories.filter(c => c.id === eventApp.categoryId)[0];
         if (cat && cat.simple) {
           percent += cat.score;
           continue;
@@ -95,8 +95,8 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
       let score = 0;
       events.filter(e => this.moreOrEqualDate(e.date, days))
         .forEach(event => {
-          if (this.isEventOfParentCategory(event.category_id, parent.id, categories)) {
-            score += this.calculateProcessDayPerCategory(event, categories.filter(c => c.id === event.category_id)[0]);
+          if (this.isEventOfParentCategory(event.categoryId, parent.id, categories)) {
+            score += this.calculateProcessDayPerCategory(event, categories.filter(c => c.id === event.categoryId)[0]);
           }
         });
       if (score !== 0) {
@@ -115,14 +115,14 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
   }
 
   private hasChildren(cat: Category, caterories: Category[]): boolean {
-    const idx = caterories.findIndex(e => e.category_parent_id === cat.id);
+    const idx = caterories.findIndex(e => e.categoryParentId === cat.id);
     return idx >= 0;
   }
 
   private isEventOfParentCategory(catId: number, parentId: number, categories: Category[]) {
     const cats = categories.filter(cat => cat.id === catId);
     if (cats.length > 0) {
-      return cats[0].category_parent_id === parentId;
+      return cats[0].categoryParentId === parentId;
     }
     return false;
   }
@@ -147,10 +147,10 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
     const parentMap = [];
     parents.forEach(parent => {
       const childrenMap = [];
-      const children = categories.filter(c => c.category_parent_id === parent.id);
+      const children = categories.filter(c => c.categoryParentId === parent.id);
       children.forEach(child => {
         //  сумма прогрессов для этого ребенка за (7, 30, all)
-        const childEvents = events.filter(e => e.category_id === child.id && this.moreOrEqualDate(e.date, 360));
+        const childEvents = events.filter(e => e.categoryId === child.id && this.moreOrEqualDate(e.date, 360));
 
         if (childEvents.length === 0) {
           return;
