@@ -5,11 +5,11 @@
     </div>
   </div>
   <div class="card-block">
-    <div
-      class="alert alert-{{message.type}}"
-      *ngIf="message.text"
-    >{{message.text}}
-    </div>
+    <!--<div-->
+      <!--class="alert alert-{{message.type}}"-->
+      <!--*ngIf="message.text"-->
+    <!--&gt;{{message.text}}-->
+    <!--</div>-->
     <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
       <div class="form-group">
 
@@ -26,7 +26,7 @@
           <option
             *ngFor="let c of categories; index as i"
             [value]="i"
-          >{{c.name}}
+          >{{c.parent !== null ? c.parent.name + ': ' : ''}}{{c.name}}
           </option>
         </select>
 
@@ -63,9 +63,9 @@
 
     <div style="margin-top: 20px" >
       <div *ngFor="let event of events" style="margin-top: 10px">
-        <label class="control-label" for="e-category-capacity">{{categoryNameById(event.category_id)}}</label>
+        <label class="control-label" for="e-category-capacity">{{categoryNameById(event.category.id)}}</label>
         <input
-          *ngIf="event && !isSimpleCategoryById(event.category_id)"
+          *ngIf="event && !isSimpleCategoryById(event.category.id)"
           type="number"
           id="e-category-capacity"
           class="form-control"

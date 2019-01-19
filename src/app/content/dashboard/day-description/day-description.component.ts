@@ -20,7 +20,7 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   @Input() selectedProgressDay: ProgressDay;
   @Input() categories: Category[] = [];
   @Input() events: EventApp[] = [];
-  message: Message;
+  // message: Message;
   dropDownCategoryIdx = 0;
   score_to_add = 1;
   @Output() onEventEdit = new EventEmitter<EventApp>();
@@ -32,7 +32,7 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   constructor(private es: EventService,
               private cs: CategoryService,
               private authService: AuthService) {
-    this.message = new Message('success', '');
+    // this.message = new Message('success', '');
   }
 
   ngOnInit() {
@@ -41,32 +41,32 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     const {score} = form.value;
     const cat = this.categories[this.dropDownCategoryIdx];
-    const event = new EventApp(score, cat.id, this.selectedProgressDay.date, this.authService.user.id);
+    const event = new EventApp(score, cat, this.selectedProgressDay.date, this.authService.user);
 
     if (cat.disposable) {
-      if (cat.disposable_capacity - (score + cat.disposable_done) > 0) {
-        cat.disposable_done += score;
+      if (cat.disposableCapacity - (score + cat.disposableDone) > 0) {
+        cat.disposableDone += score;
       } else {
-        cat.disposable_done = cat.disposable_capacity;
+        cat.disposableDone = cat.disposableCapacity;
         cat.deprecated = true;
       }
       this.sub1 = this.cs.getCategoryById(cat.id.toString()).subscribe((oCat: Category) => {
         const cTmp = oCat;
-        cTmp.disposable_capacity = cat.disposable_capacity;
+        cTmp.disposableCapacity = cat.disposableCapacity;
         cTmp.deprecated = cat.deprecated;
-        cTmp.disposable_done = cat.disposable_done;
+        cTmp.disposableDone = cat.disposableDone;
         this.sub2 = combineLatest(this.cs.updateCategory(cTmp),
           this.es.createEvent(event)).subscribe((data: [Category, EventApp]) => {
           this.onEventEdit.emit(data[1]);
-          this.message.text = 'Created.';
-          window.setTimeout(() => this.message.text = '', 1000);
+          // this.message.text = 'Created.';
+          // window.setTimeout(() => this.message.text = '', 1000);
         });
       });
     } else {
       this.sub3 = this.es.createEvent(event).subscribe((ev: EventApp) => {
         this.onEventEdit.emit(ev);
-        this.message.text = 'Created.';
-        window.setTimeout(() => this.message.text = '', 1000);
+        // this.message.text = 'Created.';
+        // window.setTimeout(() => this.message.text = '', 1000);
       });
     }
 
@@ -103,7 +103,7 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
     if (cat && cat.length > 0) {
       let postfix = '';
       if (cat[0].disposable) {
-        postfix = ' (' + cat[0].disposable_done + ' of ' + cat[0].disposable_capacity + ')';
+        postfix = ' (' + cat[0].disposableDone + ' of ' + cat[0].disposableCapacity + ')';
       }
       return cat[0].name + postfix;
     }
@@ -114,10 +114,11 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.events.length; i++) {
       this.sub4 = this.es.updateEvent(this.events[i]).subscribe((event: EventApp) => {
         this.onEventEdit.emit(event);
-        this.message.text = 'Updated.';
-        window.setTimeout(() => this.message.text = '', 1000);
+        // this.message.text = 'Updated.';
+        // window.setTimeout(() => this.message.text = '', 1000);
       });
     }
+    // console.log(this.events);
   }
 
   ngOnDestroy(): void {

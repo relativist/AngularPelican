@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class BaseApi {
 
-  private baseUrl = 'http://usque.ru:3000';
+  private baseUrl = 'http://localhost:8080/pelican';
 
   constructor(public http: HttpClient) {
 

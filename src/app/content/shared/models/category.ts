@@ -1,14 +1,17 @@
+import {User} from './user';
+
 export class Category {
   constructor(
-    public category_parent_id: number,
+    public parent: Category,
     public name: string,
     public simple: boolean,
     public score: number,
     public disposable: boolean,
-    public disposable_capacity: number,
-    public disposable_done: number,
+    public disposableCapacity: number,
+    public disposableDone: number,
     public deprecated: boolean,
-    public userId: number,
+    public user: User,
+    public header: boolean,
     public id?: number,
   ) {
 

@@ -42,9 +42,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ).subscribe((data: [EventApp[], Category[]]) => {
       this.events = data[0];
       this.categories = data[1];
-      this.categories.forEach(e => e.name = this.prettyCatName(e));
+      // this.categories.forEach(e => e.name = this.prettyCatName(e));
+      // this.categories.forEach(e => e.name = this.prettyCatName(e));
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
-      this.actualCategories = this.categories.filter(e => e.deprecated === false);
+      this.actualCategories = this.categories.filter(e => e.deprecated === false && e.parent !== null);
       const first = moment(this.events[0].date, this.format);
       let today = moment();
       this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
@@ -66,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (let i = 0; i < foundEvents.length; i++) {
         ids.push(foundEvents[i].id);
         const eventApp = foundEvents[i];
-        const cat = this.categories.filter(c => c.id === eventApp.category_id)[0];
+        const cat = this.categories.filter(c => c.id === eventApp.category.id)[0];
         if (cat !== undefined && cat.simple) {
           percent += cat.score;
           continue;
@@ -111,8 +112,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   prettyCatName(cat: Category): string {
     let prefix = '';
-    if (cat.category_parent_id !== 0) {
-      const idx = this.categories.findIndex(e => e.id === cat.category_parent_id);
+    if (cat.parent !== null) {
+      const idx = this.categories.findIndex(e => e.id === cat.parent.id);
       prefix = this.categories[idx].name + ': ';
     }
     return prefix + cat.name;

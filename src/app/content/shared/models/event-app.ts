@@ -1,8 +1,12 @@
+import {User} from './user';
+import {Category} from './category';
+
 export class EventApp {
-  constructor(public score: number,
-              public category_id: number,
+  constructor(
+              public score: number,
+              public category: Category,
               public date: string,
-              public userId: number,
+              public user: User,
               public id?: number,
   ) {
 

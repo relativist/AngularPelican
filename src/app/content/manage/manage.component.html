@@ -19,7 +19,7 @@
     <div class="col-md-4">
       <app-manage-category
         [cat]="selectedCategory"
-        [dropDownCategoryId]="selectedCategory.category_parent_id"
+        [dropDownCategoryId]="selectedCategory.parent === null ? 0 : selectedCategory.parent.id"
         [categories]="categories"
         [filteredCategories]="filteredCategory"
         (onCategoryEdit)="categoryWasEdited($event)"

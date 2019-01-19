@@ -28,7 +28,7 @@ export class EventService extends BaseApi {
   }
 
   updateEvent(event: EventApp): Observable<EventApp> {
-    return this.put(`events/${event.id}`, event);
+    return this.put('events', event);
   }
 
   createEvent(event: EventApp): Observable<EventApp> {

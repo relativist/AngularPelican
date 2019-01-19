@@ -46,8 +46,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
             if (u.id === this.authService.user.id) {
               return;
             }
-            const userEvents = this.events.filter(e => e.userId === u.id);
-            const userCategories = this.categories.filter(c => c.userId === u.id);
+            const userEvents = this.events.filter(e => e.user.id === u.id);
+            const userCategories = this.categories.filter(c => c.user.id === u.id);
             const avg = this.calc.getAvgProcessedDays(7, userEvents, userCategories);
             const cat_value = this.calc.getReportByCategories(7, userEvents, userCategories);
             this.usersData.push({name: u.name, avg_value: avg, cat_value: cat_value});
