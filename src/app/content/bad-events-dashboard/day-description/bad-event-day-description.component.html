@@ -1,0 +1,60 @@
+<div class="card" *ngIf="selectedProgressDay">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Детализация от {{selectedProgressDay.date}}</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
+      <div class="form-group">
+
+        <label class="control-label" for="e-select-category">Отдохнуть:</label>
+        <select
+          id="e-select-category"
+          class="form-control"
+          name="parentIdx"
+          [(ngModel)]="dropDownCategoryIdx"
+          (change)="onCategoryChange()"
+          [ngModelOptions]="{standalone: true}"
+          #parentIdx="ngModel"
+        >
+          <option
+            *ngFor="let c of categories; index as i"
+            [value]="i"
+          >{{prettyBadCategory(c)}}
+          </option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary "
+        [disabled]="formGroup.invalid"
+      > Добавить
+      </button>
+    </form>
+
+    <hr *ngIf="events.length > 0"/>
+    <div class="header-block">
+      <h3 class="title" *ngIf="events.length > 0">Выполнено:</h3>
+    </div>
+    <div style="margin-top: 20px" >
+      <div *ngFor="let event of events" style="margin-top: 10px">
+        <label style="margin-top: 10px">{{prettyBadCategory(event.category)}}</label>
+
+        <button
+          *ngIf="events.length > 0"
+          (click)="remove(event)"
+          class="btn btn-warning pull-right"
+        > Удалить
+        </button>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+<p *ngIf="!selectedProgressDay">
+  <app-loader></app-loader>
+</p>

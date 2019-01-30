@@ -60,27 +60,21 @@
     </form>
 
     <hr *ngIf="events.length > 0"/>
-
+    <div class="header-block">
+      <h3 class="title" *ngIf="events.length > 0">Выполнено:</h3>
+    </div>
     <div style="margin-top: 20px" >
       <div *ngFor="let event of events" style="margin-top: 10px">
-        <label class="control-label" for="e-category-capacity">{{categoryNameById(event.category.id)}}</label>
-        <input
-          *ngIf="event && !isSimpleCategoryById(event.category.id)"
-          type="number"
-          id="e-category-capacity"
-          class="form-control"
-          [(ngModel)]="event.score"
-          min="1"
-        >
+        <label style="margin-top: 10px">{{prettyEventAppConvert(event)}} {{event.category.simple ? '':': ' + event.score}}</label>
+
+        <button
+          *ngIf="events.length > 0"
+          (click)="remove(event)"
+          class="btn btn-warning pull-right"
+        > Удалить
+        </button>
       </div>
 
-      <button
-        style="margin-top: 15px"
-        *ngIf="events.length > 0"
-        (click)="updateEvents()"
-        class="btn btn-primary "
-      > Обновить
-      </button>
     </div>
 
 

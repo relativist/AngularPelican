@@ -1,0 +1,29 @@
+<div class="title-block">
+  <h3 class="title">
+    Очков: {{userScore ? userScore.score: ''}} <span class="sparkline bar"></span>
+  </h3>
+</div>
+
+<section class="section text-center" *ngIf="!isLoaded">
+  <app-loader></app-loader>
+</section>
+<section class="section" *ngIf="isLoaded">
+  <div class="row">
+    <div class="col-md-4">
+      <app-bad-event-history
+        [progresses]="progresses"
+        [selectedProgressDay]="selectedProgressDay"
+        (onDateSelect)="selectProgressDay($event)"
+      ></app-bad-event-history>
+    </div>
+    <div class="col-md-4">
+      <app-bad-event-day-description
+        [selectedProgressDay]="selectedProgressDay"
+        [events]="filteredEvents"
+        [categories]="actualCategories"
+        (onEventEdit)="eventWasEdited($event)"
+      ></app-bad-event-day-description>
+    </div>
+  </div>
+</section>
+

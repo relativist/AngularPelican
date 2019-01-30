@@ -24,13 +24,27 @@ import { ChartComponent } from './report/chart/chart.component';
 import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {CalculateProcessComponent} from './report/calculate.process.component';
+import {ScoreService} from './shared/services/score-service';
+import {BadCategoriesComponent} from './bad-category/bad.categories.component';
+import {ShowBadCategoryComponent} from './bad-category/show-bad-category/show-category.component';
+import {ManageBadBadCategoryComponent} from './bad-category/manage-bad-category/manage-bad.category.component';
+import {BadCategoryService} from './shared/services/bad-category-service';
+import {PlanComponent} from './plans/plan.component';
+import {ShowPlanComponent} from './plans/show-plan/show-category.component';
+import {ManagePlanComponent} from './plans/manage-plan/manage-bad.category.component';
+import {PlanService} from './shared/services/plan-service';
+import {GrandFilterPipe} from './shared/pipes/grandFilterPipe';
+import {BadEventDashboardComponent} from './bad-events-dashboard/bad-event-dashboard.component';
+import {BadEventDayDescriptionComponent} from './bad-events-dashboard/day-description/bad-event-day-description.component';
+import {BadEventHistoryComponent} from './bad-events-dashboard/history/bad-event-history.component';
+import {BadEventService} from './shared/services/bad-event-service';
 
 @NgModule({
   imports: [
     HttpClientModule,
     CommonModule,
     ContentRoutingModule,
-    SharedModule,
+    SharedModule
   ],
   declarations: [
     ContentPageComponent,
@@ -40,20 +54,34 @@ import {CalculateProcessComponent} from './report/calculate.process.component';
     SidebarComponent,
     DropdownDirective,
     DashboardComponent,
+    BadEventDashboardComponent,
     ReportComponent,
     ManageComponent,
+    BadCategoriesComponent,
+    PlanComponent,
     FriendsComponent,
     DayDescriptionComponent,
+    BadEventDayDescriptionComponent,
+    BadEventHistoryComponent,
     ShowCategoryComponent,
+    ShowBadCategoryComponent,
+    ShowPlanComponent,
+    ManageBadBadCategoryComponent,
+    ManagePlanComponent,
     ManageCategoryComponent,
     HistoryComponent,
     ChartComponent,
+    GrandFilterPipe
   ],
   providers: [
     CalculateProcessComponent,
     UserService,
     CategoryService,
-    EventService
+    BadCategoryService,
+    BadEventService,
+    PlanService,
+    EventService,
+    ScoreService
   ]
 })
 

@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../shared/models/category';
+import PelicanUtils from '../../shared/pelicanUtils';
+import {Plan} from '../../shared/models/plan';
 
 @Component({
   selector: 'app-show-category',
@@ -19,16 +21,18 @@ export class ShowCategoryComponent implements OnInit {
   }
 
   prettyCatName(cat: Category): string {
-    let prefix = '';
-    if (cat.parent !== null) {
-      const idx = this.categories.findIndex(e => e.id === cat.parent.id);
-      prefix = this.categories[idx].name + ': ';
-    }
-    return prefix + cat.name;
+    return PelicanUtils.prettyCatName(cat);
   }
 
   selectCategory(cat: Category) {
     this.onCategorySelect.emit(cat);
   }
 
+  isNotDeprecated(cat: Category) {
+    return !cat.deprecated;
+  }
+
+  isDeprecated(cat: Category) {
+    return cat.deprecated;
+  }
 }

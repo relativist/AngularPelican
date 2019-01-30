@@ -62,10 +62,14 @@
           <div class="form-group">
             <button
               [disabled]="form.invalid"
-              type="submit" class="btn btn-block btn-primary">Войти
+              type="submit" class="btn btn-block btn-primary ">Войти
             </button>
           </div>
         </form>
+        <button
+          (click)="onRegister()"
+          class="btn btn-block btn-warning">Регистрация
+        </button>
 
 
       </div>

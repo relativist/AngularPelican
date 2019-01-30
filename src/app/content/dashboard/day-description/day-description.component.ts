@@ -9,6 +9,7 @@ import {CategoryService} from '../../shared/services/category-service';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../../shared/services/auth.service';
+import PelicanUtils from '../../shared/pelicanUtils';
 
 @Component({
   selector: 'app-day-description',
@@ -28,8 +29,9 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   sub2: Subscription;
   sub3: Subscription;
   sub4: Subscription;
+  sub5: Subscription;
 
-  constructor(private es: EventService,
+  constructor(private eventService: EventService,
               private cs: CategoryService,
               private authService: AuthService) {
     // this.message = new Message('success', '');
@@ -56,14 +58,14 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
         cTmp.deprecated = cat.deprecated;
         cTmp.disposableDone = cat.disposableDone;
         this.sub2 = combineLatest(this.cs.updateCategory(cTmp),
-          this.es.createEvent(event)).subscribe((data: [Category, EventApp]) => {
+          this.eventService.createEvent(event)).subscribe((data: [Category, EventApp]) => {
           this.onEventEdit.emit(data[1]);
           // this.message.text = 'Created.';
           // window.setTimeout(() => this.message.text = '', 1000);
         });
       });
     } else {
-      this.sub3 = this.es.createEvent(event).subscribe((ev: EventApp) => {
+      this.sub3 = this.eventService.createEvent(event).subscribe((ev: EventApp) => {
         this.onEventEdit.emit(ev);
         // this.message.text = 'Created.';
         // window.setTimeout(() => this.message.text = '', 1000);
@@ -112,13 +114,23 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
 
   updateEvents() {
     for (let i = 0; i < this.events.length; i++) {
-      this.sub4 = this.es.updateEvent(this.events[i]).subscribe((event: EventApp) => {
+      this.sub4 = this.eventService.updateEvent(this.events[i]).subscribe((event: EventApp) => {
         this.onEventEdit.emit(event);
         // this.message.text = 'Updated.';
         // window.setTimeout(() => this.message.text = '', 1000);
       });
     }
     // console.log(this.events);
+  }
+
+  remove(event: EventApp) {
+    const idx = this.events.indexOf(event);
+    const eventToDelete = this.events[idx];
+    if (idx > -1) {
+      // this.events.splice(idx, 1);
+      event.score = 0;
+      this.onEventEdit.emit(event);
+    }
   }
 
   ngOnDestroy(): void {
@@ -136,5 +148,13 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
     if (this.sub4) {
       this.sub4.unsubscribe();
     }
+
+    if (this.sub5) {
+      this.sub5.unsubscribe();
+    }
+  }
+
+  prettyEventAppConvert(event: EventApp): string {
+    return PelicanUtils.prettyCatName(event.category);
   }
 }

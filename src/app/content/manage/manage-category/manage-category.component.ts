@@ -22,15 +22,6 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   message: Message;
   sub1: Subscription;
   sub2: Subscription;
-  countries = [
-    {id: 0, name: 'Russia'},
-    {id: 1, name: 'United States'},
-    {id: 2, name: 'Australia'},
-    {id: 3, name: 'Canada'},
-    {id: 4, name: 'Brazil'},
-    {id: 5, name: 'England'}
-  ];
-  selectedValue = 'Russia';
 
   constructor(private cs: CategoryService,
               private authService: AuthService) {
@@ -92,8 +83,7 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChange() {
-    console.log('this.dropDownCategoryId', this.dropDownCategoryId);
-    console.log('this.selectedValue', this.selectedValue);
+    // console.log('this.dropDownCategoryId', this.dropDownCategoryId);
   }
 
   onCreateNewCat() {

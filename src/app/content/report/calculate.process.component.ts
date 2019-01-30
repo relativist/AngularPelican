@@ -7,6 +7,7 @@ import {EventService} from '../shared/services/event-service';
 import {CategoryService} from '../shared/services/category-service';
 import {AuthService} from '../shared/services/auth.service';
 import {UserService} from '../shared/services/user-service';
+import {BadEvent} from '../shared/models/BadEvent';
 
 @Injectable()
 export class CalculateProcessComponent implements OnInit, OnDestroy {
@@ -41,7 +42,7 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
     // for (let i = 0; i < events.length; i++) {
     //   const btw = moment(events[i].date, this.format);
     //   if (btw.isSameOrAfter(minDay) && btw.isSameOrBefore(today)) {
-    //     progress.push(this.calculateProcessDay(events[i].date, events, categories));
+    //     progress.push(this.calculateBadProcessDay(events[i].date, events, plans));
     //   }
     // }
     //
@@ -85,6 +86,19 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
     } else {
       return new ProgressDay(date, [], 'danger', 0);
     }
+  }
+
+  getReportByBadEvents(days: number, badEvents: BadEvent[]): any {
+    const events = badEvents.filter(e => this.moreOrEqualDate(e.date, days));
+    const resultMap = [];
+    const unique = events.map(item => item.category.name)
+      .filter((value, index, self) => self.indexOf(value) === index);
+    unique.forEach(name => {
+      let score = 0;
+      events.filter(e => e.category.name === name).forEach(e => score += e.category.score);
+      resultMap.push({name, value: score});
+    });
+    return resultMap;
   }
 
   getReportByCategories(days: number, events: EventApp[], categories: Category[]): any {
@@ -136,7 +150,7 @@ export class CalculateProcessComponent implements OnInit, OnDestroy {
     if (event.score > 0) {
       score = event.score * 100 / cat.score;
     }
-    // console.log(event.date + ' ' + cat.name + ': ' + score);
+    // console.log(event.date + ' ' + cat.name + ': ' + userScore);
     return score;
   }
 

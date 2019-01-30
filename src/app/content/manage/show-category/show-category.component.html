@@ -12,14 +12,31 @@
           'active': cat.id === selectedCat.id,
           'list-group-item-warning': cat.deprecated
           }"
-          *ngFor="let cat of categories">
+          *ngFor="let cat of categories | grandFilter: isNotDeprecated">
         {{prettyCatName(cat)}}
       </li>
     </ul>
-
   </div>
+</div>
 
-  <div class="col-xs-8">
-    <router-outlet></router-outlet>
+
+<div class="card">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Категории выполненных задач</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <ul class="list-group">
+      <li class="list-group-item"
+          (click)="selectCategory(cat)"
+          [ngClass]="{
+          'active': cat.id === selectedCat.id,
+          'list-group-item-warning': cat.deprecated
+          }"
+          *ngFor="let cat of categories | grandFilter: isDeprecated">
+        {{prettyCatName(cat)}}
+      </li>
+    </ul>
   </div>
 </div>

@@ -5,10 +5,10 @@
     </div>
   </div>
   <div class="card-block">
-    <div
-      class="alert alert-{{message.type}}"
-      *ngIf="message.text"
-    >{{message.text}}</div>
+    <!--<div-->
+      <!--class="alert alert-{{message.type}}"-->
+      <!--*ngIf="message.text"-->
+    <!--&gt;{{message.text}}</div>-->
     <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
       <div class="form-group">
 
@@ -90,6 +90,7 @@
       <div class="form-group">
         <label class="control-label" for="is-simple">Булевая (простая)</label>
         <input id="is-simple"
+               style="margin-left: 10px"
                type="checkbox"
                [checked]="cat.simple"
                [ngModel]="cat.simple"
@@ -100,6 +101,7 @@
       <div class="form-group">
         <label class="control-label" for="is-disposable">Конечная задача</label>
         <input id="is-disposable"
+               style="margin-left: 10px"
                type="checkbox"
                [checked]="cat.disposable"
                [ngModel]="cat.disposable"
@@ -110,6 +112,7 @@
       <div class="form-group">
         <label class="control-label" for="is-deprecated">Устаревшая</label>
         <input id="is-deprecated"
+               style="margin-left: 10px"
                type="checkbox"
                [checked]="cat.deprecated"
                [ngModel]="cat.deprecated"

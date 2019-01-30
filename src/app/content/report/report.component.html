@@ -1,6 +1,18 @@
 <div class="title-block">
+  <div class="col-md-4">
+    <h3>Неделя</h3>
+  </div>
+  <div class="col-md-4">
+    <h3>Месяц</h3>
+  </div>
+  <div class="col-md-4">
+    <h3>Все время</h3>
+  </div>
+</div>
+
+<div>
   <h3 class="title">
-    Общая динамика<span class="sparkline bar"></span>
+    Общая динамика
   </h3>
 </div>
 <div *ngIf="!isLoaded" class="text-center">
@@ -10,28 +22,17 @@
 <div *ngIf="isLoaded">
   <div class="row">
     <div class="col-md-4">
-      <h3>Неделя</h3>
-    </div>
-    <div class="col-md-4">
-      <h3>Месяц</h3>
-    </div>
-    <div class="col-md-4">
-      <h3>Все время</h3>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
       <app-chart [data]="avg7" [legend]="false"></app-chart>
     </div>
     <div class="col-md-4">
       <app-chart [data]="avg30" [legend]="false"></app-chart>
     </div>
     <div class="col-md-4">
-      <app-chart [data]="avg360" [legend]="false"></app-chart>
+      <app-chart [data]="avg90" [legend]="false"></app-chart>
     </div>
   </div>
 
-  <div class="title-block">
+  <div >
     <h3 class="title">
       По категориям <span class="sparkline bar"></span>
     </h3>
@@ -45,18 +46,36 @@
       <app-chart [data]="reportByCat30" [legend]="false"></app-chart>
     </div>
     <div class="col-md-4">
-      <app-chart [data]="reportByCat360" [legend]="false"></app-chart>
+      <app-chart [data]="reportByCat90" [legend]="false"></app-chart>
     </div>
   </div>
 
-  <div class="title-block">
+  <div >
     <h3 class="title">
-      Прогресс конечных задач <span class="sparkline bar"></span>
+      Развлечения <span class="sparkline bar"></span>
+    </h3>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <app-chart [data]="reportBadEvents7" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="reportBadEvents30" [legend]="false"></app-chart>
+    </div>
+    <div class="col-md-4">
+      <app-chart [data]="reportBadEvents90" [legend]="false"></app-chart>
+    </div>
+  </div>
+
+  <div >
+    <h3 class="title" style="margin-bottom: 20px">
+      Книги <span class="sparkline bar"></span>
     </h3>
   </div>
 
   <div class="row" *ngFor="let c of categoriesDisposable">
-    <div class="col-xs-6">
+    <div class="col-md-6">
       <div>{{c.name}}</div>
       <div class="n-progress">
         <div class="progress-bar {{getCatColorClass(c)}}" [ngStyle]="{width: getCatPercent(c)+'%'}">
@@ -67,7 +86,7 @@
   </div>
 
 
-  <div class="title-block">
+  <div >
     <h3 class="title">
       По под-категориям <span class="sparkline bar"></span>
     </h3>

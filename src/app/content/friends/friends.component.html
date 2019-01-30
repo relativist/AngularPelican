@@ -9,17 +9,31 @@
 </div>
 <div *ngIf="isLoaded">
   <div *ngFor="let user of usersData">
-    <div class="col-md-8">
+    <div class="col-md-12">
       {{user.name}}
-
       <div class="row">
-        <div class="col-md-4">
-          <app-chart [data]="user.avg_value" [legend]="false"></app-chart>
+        <div class="col-md-2">
+          <app-chart [data]="user.progress7" [legend]="false"></app-chart>
         </div>
-        <div class="col-md-4">
-          <app-chart [data]="user.cat_value" [legend]="false"></app-chart>
+        <div class="col-md-2">
+          <app-chart [data]="user.category7" [legend]="false"></app-chart>
+        </div>
+        <div class="col-md-2">
+          <app-chart [data]="user.progress30" [legend]="false"></app-chart>
+        </div>
+        <div class="col-md-2">
+          <app-chart [data]="user.category30" [legend]="false"></app-chart>
         </div>
       </div>
+    <div class="raw">
+      <div class="col-md-2">
+        <app-chart [data]="user.badEvent7" [legend]="false"></app-chart>
+      </div>
+      <div class="col-md-2">
+        <app-chart [data]="user.badEvent30" [legend]="false"></app-chart>
+      </div>
+    </div>
+
     </div>
   </div>
 </div>

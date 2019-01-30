@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class BaseApi {
 
-  private baseUrl = 'http://localhost:8080/pelican';
+  private baseUrl = 'http://localhost:8088/pelican';
 
   constructor(public http: HttpClient) {
 
@@ -36,5 +36,9 @@ export class BaseApi {
   public put(url: string = '', data: any = {}): Observable<any> {
     const some = this.http.put(this.getUrl(url), data);
     return some[0] ? some[0] : some;
+  }
+
+  public delete(url: string = ''): Observable<any> {
+    return this.http.delete(this.getUrl(url));
   }
 }

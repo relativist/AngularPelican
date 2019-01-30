@@ -1,0 +1,28 @@
+<div class="title-block">
+  <h3 class="title">
+    Страница категорий развлечений <span class="sparkline bar"></span>
+  </h3>
+</div>
+
+<section class="section text-center" *ngIf="!isLoaded">
+  <app-loader></app-loader>
+</section>
+<section class="section" *ngIf="isLoaded">
+  <div class="row">
+    <div class="col-md-4">
+      <app-show-bad-category
+        [selectedCat]="selectedBadCategory"
+        [categories]="badCategories"
+        (onBadCategorySelect)="selectBadCategory($event)"
+      ></app-show-bad-category>
+    </div>
+    <div class="col-md-4">
+      <app-manage-bad-category
+        [cat]="selectedBadCategory"
+        [categories]="badCategories"
+        [filteredCategories]="badCategories"
+        (onBadCategoryEdit)="badCategoryWasEdited($event)"
+      ></app-manage-bad-category>
+    </div>
+  </div>
+</section>

@@ -23,12 +23,16 @@ export class EventService extends BaseApi {
     return this.getArray('events');
   }
 
-  getEventById(id: string): Observable<EventApp> {
+  getEventById(id: number): Observable<EventApp> {
     return this.get(`events/${id}`);
   }
 
   updateEvent(event: EventApp): Observable<EventApp> {
     return this.put('events', event);
+  }
+
+  deleteEvent(event: EventApp): Observable<EventApp> {
+    return this.delete(`events/${event.id}`);
   }
 
   createEvent(event: EventApp): Observable<EventApp> {

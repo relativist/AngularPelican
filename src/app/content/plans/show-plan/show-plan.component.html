@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Большие задачи</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <ul class="list-group">
+      <li class="list-group-item"
+          (click)="selectPlan(cat)"
+          [ngClass]="{
+          'active': cat.id === selectedCat.id,
+          'list-group-item-secondary': cat.isFinished,
+          'list-group-item-success': cat.score > 100 && !cat.isFinished,
+          'list-group-item-info': cat.score < 100 && cat.score >= 50 && !cat.isFinished,
+          'list-group-item-warning': cat.score < 50 && cat.score >=0 && !cat.isFinished
+          }"
+          *ngFor="let cat of categories">
+        {{cat.name}}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="categories | grandFilter: filterGrandPlans as grandPlans">
+  <div class="card">
+    <div class="card-header bordered" *ngIf="grandPlans.length > 0">
+      <div class="header-block">
+        <h3 class="title">Achievements: {{grandPlans.length}}</h3>
+      </div>
+    </div>
+    <div class="card-block">
+      <ul class="list-group">
+        <li class="list-group-item"
+            *ngFor="let cat of grandPlans">
+          {{cat.name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

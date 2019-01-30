@@ -13,11 +13,13 @@ import {AuthGuard} from './content/shared/services/auth-guard';
 import {NotfoundComponent} from './content/shared/components/notfound/notfound.component';
 import {ContentRoutingModule} from './content/content-routing.module';
 import {LoaderComponent} from './content/shared/components/loader/loader.component';
+import {RegisterComponent} from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     NotfoundComponent,
   ],
   imports: [

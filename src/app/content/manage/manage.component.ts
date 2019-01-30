@@ -4,6 +4,7 @@ import {CategoryService} from '../shared/services/category-service';
 import {Subscription} from 'rxjs/Subscription';
 import {User} from '../shared/models/user';
 import {AuthService} from '../shared/services/auth.service';
+import PelicanUtils from '../shared/pelicanUtils';
 
 @Component({
   selector: 'app-manage',
@@ -25,7 +26,16 @@ export class ManageComponent implements OnInit, OnDestroy {
     this.sub1 = this.cs.getCategories(authService.user.id)
       .subscribe((cat: Category[]) => {
         this.categories = cat;
-        this.categories = cat.sort((a, b) => this.prettyCatName(a).localeCompare(this.prettyCatName(b)));
+        this.categories = cat.sort((a, b) => {
+          if (a.deprecated && !b.deprecated) {
+            return 1;
+          }
+
+          if (!a.deprecated && b.deprecated) {
+            return -1;
+          }
+          return PelicanUtils.prettyCatName(a).localeCompare(PelicanUtils.prettyCatName(b));
+        });
         this.isLoaded = true;
         this.selectedCategory = this.categories[0];
         this.filteredCategory = this.categories.filter(c => c.parent === null);
@@ -40,16 +50,6 @@ export class ManageComponent implements OnInit, OnDestroy {
   selectCategory(cat: Category) {
     this.selectedCategory = cat;
   }
-
-  prettyCatName(cat: Category): string {
-    let prefix = '';
-    if (cat.parent !== null) {
-      const idx = this.categories.findIndex(e => e.id === cat.parent.id);
-      prefix = this.categories[idx].name + ': ';
-    }
-    return prefix + cat.name;
-  }
-
 
   categoryWasEdited(cat: Category) {
     const idx = this.categories.findIndex(e => e.id === cat.id);

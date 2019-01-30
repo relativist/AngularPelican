@@ -11,6 +11,8 @@ import * as moment from 'moment';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../shared/services/auth.service';
 import {CalculateProcessComponent} from './calculate.process.component';
+import {BadEvent} from '../shared/models/BadEvent';
+import {BadEventService} from '../shared/services/bad-event-service';
 
 @Component({
   selector: 'app-report',
@@ -23,22 +25,27 @@ export class ReportComponent implements OnInit, OnDestroy {
   user: User;
   events: EventApp[] = [];
   categories: Category[] = [];
+  badEvents: BadEvent[] = [];
   format = 'DD.MM.YYYY';
 
   avg7 = [];
   avg30 = [];
-  avg360 = [];
+  avg90 = [];
   categoriesDisposable: Category[] = [];
   reportBySubCategory = [];
   reportByCat7 = [];
   reportByCat30 = [];
-  reportByCat360 = [];
+  reportByCat90 = [];
+  reportBadEvents7 = [];
+  reportBadEvents30 = [];
+  reportBadEvents90 = [];
   sub1: Subscription;
 
   constructor(private us: UserService,
               private cs: CategoryService,
               private authService: AuthService,
-              private es: EventService,
+              private eventService: EventService,
+              private badEventService: BadEventService,
               private calc: CalculateProcessComponent) {
   }
 
@@ -46,34 +53,29 @@ export class ReportComponent implements OnInit, OnDestroy {
     const userId = this.authService.user.id;
     this.user = this.authService.user;
     this.sub1 = combineLatest(
-      this.es.getEvents(userId),
-      this.cs.getCategories(userId)
-    ).subscribe((data: [EventApp[], Category[]]) => {
+      this.eventService.getEvents(userId),
+      this.cs.getCategories(userId),
+      this.badEventService.getBadEvents(userId)
+    ).subscribe((data: [EventApp[], Category[], BadEvent[]]) => {
       this.events = data[0];
       this.categories = data[1];
-      // this.categories.forEach(e => e.name = this.prettyCatName(e));
+      this.badEvents = data[2];
       this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
       this.avg7 = this.calc.getAvgProcessedDays(7, this.events, this.categories);
       this.avg30 = this.calc.getAvgProcessedDays(30, this.events, this.categories);
-      this.avg360 = this.calc.getAvgProcessedDays(360, this.events, this.categories);
+      this.avg90 = this.calc.getAvgProcessedDays(90, this.events, this.categories);
       this.categoriesDisposable = this.categories.filter(e => e.disposable);
       this.reportBySubCategory = this.calc.getReportBySubCategories(this.categories, this.events);
       this.isLoaded = true;
       this.reportByCat7 = this.calc.getReportByCategories(7, this.events, this.categories);
       this.reportByCat30 = this.calc.getReportByCategories(30, this.events, this.categories);
-      this.reportByCat360 = this.calc.getReportByCategories(360, this.events, this.categories);
+      this.reportByCat90 = this.calc.getReportByCategories(90, this.events, this.categories);
+      this.reportBadEvents7 = this.calc.getReportByBadEvents(7, this.badEvents);
+      this.reportBadEvents30 = this.calc.getReportByBadEvents(30, this.badEvents);
+      this.reportBadEvents90 = this.calc.getReportByBadEvents(90, this.badEvents);
     });
 
 
-  }
-
-  prettyCatName(cat: Category): string {
-    let prefix = '';
-    if (cat.parent !== null) {
-      const idx = this.categories.findIndex(e => e.id === cat.parent.id);
-      prefix = this.categories[idx].name + ': ';
-    }
-    return prefix + cat.name;
   }
 
   calculateProcessDay(date: string): ProgressDay {
