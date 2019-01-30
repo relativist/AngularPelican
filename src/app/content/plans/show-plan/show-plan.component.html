@@ -23,8 +23,8 @@
 </div>
 
 <div *ngIf="categories | grandFilter: filterGrandPlans as grandPlans">
-  <div class="card">
-    <div class="card-header bordered" *ngIf="grandPlans.length > 0">
+  <div class="card" *ngIf="grandPlans.length > 0">
+    <div class="card-header bordered" >
       <div class="header-block">
         <h3 class="title">Achievements: {{grandPlans.length}}</h3>
       </div>

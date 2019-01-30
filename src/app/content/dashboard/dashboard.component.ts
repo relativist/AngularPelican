@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   eventWasEdited(event: EventApp) {
     // update day event content
-    console.log('eventWasEdited', event);
+
     const idx = this.events.findIndex(e => e.id === event.id);
     if (idx > -1) {
       if (event.score === 0) {
@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.eventService.getEventById(event.id)
           .mergeMap((prevEvent: EventApp) => {
             const percentOfEvent = Math.round(PelicanUtils.percentOfEvent(prevEvent, prevEvent.category));
-            console.log('PERCENT DELETE: ', percentOfEvent);
+            // console.log('PERCENT DELETE: ', percentOfEvent);
             return this.scoreService.operateScore(this.user.id, -percentOfEvent);
           })
           .mergeMap((newScore: Score) => {
@@ -143,7 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       // либо добавляем
       const percentOfEvent = Math.round(PelicanUtils.percentOfEvent(event, event.category));
-      console.log('PERCENT CREATE: ', percentOfEvent);
+      // console.log('PERCENT CREATE: ', percentOfEvent);
       this.events.push(event);
       this.scoreService.operateScore(this.user.id, percentOfEvent).subscribe((newScore: Score) => {
         this.userScore = newScore;

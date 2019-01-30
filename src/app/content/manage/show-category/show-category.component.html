@@ -20,23 +20,25 @@
 </div>
 
 
-<div class="card">
-  <div class="card-header bordered">
-    <div class="header-block">
-      <h3 class="title">Категории выполненных задач</h3>
+<div *ngIf="categories | grandFilter: isDeprecated as deprecated">
+  <div class="card" *ngIf="deprecated.length > 0">
+    <div class="card-header bordered">
+      <div class="header-block">
+        <h3 class="title">Категории выполненных задач</h3>
+      </div>
     </div>
-  </div>
-  <div class="card-block">
-    <ul class="list-group">
-      <li class="list-group-item"
-          (click)="selectCategory(cat)"
-          [ngClass]="{
+    <div class="card-block">
+      <ul class="list-group">
+        <li class="list-group-item"
+            (click)="selectCategory(cat)"
+            [ngClass]="{
           'active': cat.id === selectedCat.id,
           'list-group-item-warning': cat.deprecated
           }"
-          *ngFor="let cat of categories | grandFilter: isDeprecated">
-        {{prettyCatName(cat)}}
-      </li>
-    </ul>
+            *ngFor="let cat of categories | grandFilter: isDeprecated">
+          {{prettyCatName(cat)}}
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

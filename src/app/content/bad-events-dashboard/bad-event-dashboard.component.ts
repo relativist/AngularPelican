@@ -99,7 +99,7 @@ export class BadEventDashboardComponent implements OnInit, OnDestroy {
 
   eventWasEdited(event: BadEvent) {
     // update day event content
-    console.log('eventWasEdited', event);
+    // console.log('eventWasEdited', event);
     const idx = this.events.findIndex(e => e.id === event.id);
     if (idx > -1) {
       if (event.date === '') {
@@ -108,7 +108,7 @@ export class BadEventDashboardComponent implements OnInit, OnDestroy {
         this.badEventService.getBadEventById(event.id + '')
           .mergeMap((prevEvent: BadEvent) => {
             const percentOfEvent = PelicanUtils.percentOfBadEvent(prevEvent);
-            console.log('PERCENT DELETE: ', percentOfEvent);
+            // console.log('PERCENT DELETE: ', percentOfEvent);
             return this.scoreService.operateScore(this.user.id, event.category.score);
           })
           .mergeMap((newScore: Score) => {
@@ -125,7 +125,7 @@ export class BadEventDashboardComponent implements OnInit, OnDestroy {
     } else {
       // либо добавляем
       const percentOfEvent = PelicanUtils.percentOfBadEvent(event);
-      console.log('PERCENT CREATE: ', percentOfEvent);
+      // console.log('PERCENT CREATE: ', percentOfEvent);
       this.events.push(event);
       this.scoreService.operateScore(this.user.id, -event.category.score).subscribe((newScore: Score) => {
         this.userScore = newScore;

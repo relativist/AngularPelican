@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('SUBMIT');
+
     const {login, password} = this.form.value;
     this.sub2 =  this.userService.getUserByLogin(login)
       .subscribe((u: User) => {
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onRegister() {
-    console.log('register');
+
     this.router.navigate(['/register']);
   }
 

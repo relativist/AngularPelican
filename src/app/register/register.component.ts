@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('SUBMIT');
+
     const {login, password, name, mail} = this.form.value;
     this.userService.getUserByLogin(login)
       .mergeMap((u: User) => {
@@ -89,7 +89,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    console.log('Back');
+
     this.router.navigate(['/login']);
   }
 
