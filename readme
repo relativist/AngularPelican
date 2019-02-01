@@ -1,3 +1,4 @@
+#
 ng build --prod
 
 # Delete all containers
@@ -10,3 +11,18 @@ docker image build -t pelican .
 docker run -p 3000:80 --rm pelican
 or
 docker-compose up -d
+
+---------------------------
+2 dockers to manage Angular-Frontend
+
+1. DOCKER - To compile sources
+cd docker-compile
+make build
+docker-compose up
+
+
+2. DOCKER - To run application
+cd docker
+- make npm-build (compile if necessary)
+make build
+docker-compose up

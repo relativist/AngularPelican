@@ -1,0 +1,20 @@
+---
+
+version: '3.4'
+
+networks:
+    net:
+
+services:
+
+    axpl-admin:
+        image:  pelican-frontend:master-dev
+        container_name: pelican-frontend
+        restart: always
+        hostname: pelican-frontend
+        networks:
+            net:
+                aliases:
+                    - pelican-frontend
+        ports:
+          - 80:80

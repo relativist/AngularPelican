@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+  angular-builder:
+    image: pelican-fronend-compile:latest
+    container_name: pelican-fronend-compile
+    restart: always
+    volumes:
+      - ${SRC_DIR}:/home/node/app
+
+    command: npm install
+    # command: npm run-script start
+
+    # command: sleep 10000
+    # command: npm install
+    # command: ng build --base-href=/ --deploy-url=/ --output-path=/home/node/app/dist --aot=false
+    # command: ng serve --base-href=/ --deploy-url=/ --port 4200 --host 0.0.0.0 [--port 4200 --live-reload-port 49153] --open
+
+    hostname: pelican-fronend-compile
+    ports:
+      - 4200:4200
+      - 49153:49153
+
