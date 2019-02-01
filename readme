@@ -1,3 +1,24 @@
+2 dockers to manage Angular-Frontend
+
+1. DOCKER - To compile sources
+a. cd docker-compile
+b. make build
+c. docker-compose up
+command: npm install
+d. docker-compose up
+command: npm run-script start
+
+2. DOCKER - To run application
+cd docker
+- make npm-build (compile if necessary)
+make build
+docker-compose up
+
+#alias dex="docker exec -it"
+!!!attach ->  dex pelican-fronend-compile bash
+
+---------------
+
 #
 ng build --prod
 
@@ -6,23 +27,9 @@ docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi -f $(docker images -q)
 
-docker image build -t pelican .
-
-docker run -p 3000:80 --rm pelican
-or
-docker-compose up -d
-
 ---------------------------
-2 dockers to manage Angular-Frontend
-
-1. DOCKER - To compile sources
-cd docker-compile
-make build
-docker-compose up
-
-
-2. DOCKER - To run application
-cd docker
-- make npm-build (compile if necessary)
-make build
-docker-compose up
+# update all versions
+npm install -g npm-check-updates
+ncu -u
+npm update
+npm install

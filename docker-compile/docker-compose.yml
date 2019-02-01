@@ -8,10 +8,10 @@ services:
     volumes:
       - ${SRC_DIR}:/home/node/app
 
-    command: npm install
-    # command: npm run-script start
+#    command: npm install
+#    command: npm run-script start
 
-    # command: sleep 10000
+#    command: sleep 10000
     # command: npm install
     # command: ng build --base-href=/ --deploy-url=/ --output-path=/home/node/app/dist --aot=false
     # command: ng serve --base-href=/ --deploy-url=/ --port 4200 --host 0.0.0.0 [--port 4200 --live-reload-port 49153] --open
