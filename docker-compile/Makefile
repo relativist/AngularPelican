@@ -14,7 +14,8 @@ help:  ## Display this help
 ################################################################################
 
 TAG_FROM  := $(shell git rev-parse --abbrev-ref HEAD)
-#TAG_BUILD := loyal-2.1.0
+CURR_PATH := $(realpath ..)
+EXECCOMMAND := $(shell echo "SRC_DIR=$(CURR_PATH)" > .env)
 TAG_BUILD := $(TAG_FROM)
 BUILD_ENV := dev
 VER=latest
@@ -50,7 +51,13 @@ tar: ## tar the sources
 .PHONY: build push publish
 
 build:  ## Build docker image. Use BUILD_ENV= (prod|...) to set build env.
+	@echo $(CURR_PATH)
+	$(EXECCOMMAND)
 	$(BUILD_CMD)
+
+prebuild:  ## Build docker image. Use BUILD_ENV= (prod|...) to set build env.
+	@echo $(CURR_PATH)
+	$(EXECCOMMAND)
 
 push: $(docker inspect --format={{.Created}} $(IMAGE)) ## Push docker image to repo. Use BUILD_ENV=dev (prod|...) to set build env.
 	docker push $(IMAGE)
