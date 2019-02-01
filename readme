@@ -4,23 +4,21 @@
 a. cd docker-compile
 b. make build
 c. docker-compose up
-command: npm install
+with command: npm install
 d. docker-compose up
-command: npm run-script start
+with command: npm run-script start
 
 2. DOCKER - To run application
 cd docker
 - make npm-build (compile if necessary)
 make build
 docker-compose up
+go to localhost:80
 
+---------------------------
+for debug:
 #alias dex="docker exec -it"
-!!!attach ->  dex pelican-fronend-compile bash
-
----------------
-
-#
-ng build --prod
+attach ->  dex pelican-fronend-compile bash
 
 # Delete all containers
 docker rm $(docker ps -a -q)
