@@ -22,8 +22,12 @@ export class ShowPlanComponent implements OnInit {
     this.onPlanSelect.emit(cat);
   }
 
-  filterGrandPlans(plan: Plan) {
+  filterGrandPlansAndFinished(plan: Plan) {
     return plan.isGrand && plan.isFinished;
+  }
+
+  filterNotFinished(plan: Plan) {
+    return !plan.isFinished ;
   }
 
 }

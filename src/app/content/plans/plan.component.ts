@@ -37,7 +37,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     ).subscribe((data: [Plan[], Score]) => {
       this.score = data[1];
       this.plans = data[0]
-        .filter(e => !e.isFinished)
+      // .filter(e => !e.isFinished)
         .sort((a, b) => {
 
           if (a.isFinished && b.isFinished) {
@@ -64,16 +64,18 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.selectedPlan = cat;
   }
 
-  planWasEdited(cat: Plan) {
-    const idx = this.plans.findIndex(e => e.id === cat.id);
+  planWasEdited(plan: Plan) {
+    const idx = this.plans.findIndex(e => e.id === plan.id);
     if (idx >= 0) {
-      this.plans[idx] = cat;
-      this.scoreService.operateScore(this.authService.user.id, cat.score).subscribe((score: Score) => {
-        this.score = score;
-        this.plans.splice(idx, 1);
-      });
+      this.plans[idx] = plan;
+      if (plan.isFinished) {
+        this.scoreService.operateScore(this.authService.user.id, plan.score).subscribe((score: Score) => {
+          this.score = score;
+          // this.plans.splice(idx, 1);
+        });
+      }
     } else {
-      this.plans.push(cat);
+      this.plans.push(plan);
     }
   }
 

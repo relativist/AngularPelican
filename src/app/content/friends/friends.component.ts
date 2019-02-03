@@ -50,7 +50,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
           this.events = data[1];
           this.categories = data[2];
           this.badEvents = data[3];
-          console.log('init', this.badEvents);
+          // console.log('init', this.badEvents);
 
           this.users.forEach(u => {
 

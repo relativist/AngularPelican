@@ -11,18 +11,18 @@
           [ngClass]="{
           'active': cat.id === selectedCat.id,
           'list-group-item-secondary': cat.isFinished,
-          'list-group-item-success': cat.score > 100 && !cat.isFinished,
-          'list-group-item-info': cat.score < 100 && cat.score >= 50 && !cat.isFinished,
-          'list-group-item-warning': cat.score < 50 && cat.score >=0 && !cat.isFinished
+          'list-group-item-success': cat.score > 100,
+          'list-group-item-info': cat.score < 100 && cat.score >= 50,
+          'list-group-item-warning': cat.score < 50 && cat.score >=0,
+          'list-group-item-danger': cat.score < 0
           }"
-          *ngFor="let cat of categories">
-        {{cat.name}}
+          *ngFor="let cat of categories | grandFilter: filterNotFinished">
+        {{cat.name +': '+cat.score}}
       </li>
     </ul>
   </div>
 </div>
-
-<div *ngIf="categories | grandFilter: filterGrandPlans as grandPlans">
+<div *ngIf="categories | grandFilter: filterGrandPlansAndFinished as grandPlans">
   <div class="card" *ngIf="grandPlans.length > 0">
     <div class="card-header bordered" >
       <div class="header-block">
@@ -33,7 +33,7 @@
       <ul class="list-group">
         <li class="list-group-item"
             *ngFor="let cat of grandPlans">
-          {{cat.name}}
+          {{cat.name + ': ' + cat.score +' ('+cat.date+')' }}
         </li>
       </ul>
     </div>
