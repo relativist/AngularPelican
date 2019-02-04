@@ -14,6 +14,10 @@ export default class PelicanUtils {
   }
 
   static percentOfEvent(event: EventApp, cat: Category): number {
+    if (event.score === null && event.category.simple === true) {
+      return event.category.score;
+    }
+
     let percent = 0;
     if (event.score > 0) {
       percent += event.score * 100 / cat.score;
