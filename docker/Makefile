@@ -43,6 +43,11 @@ info: ## Info about
 tar: ## tar the sources
 	tar -czvf source.tar.gz ./src
 
+scp: ## scp to pi
+	scp -P 5566 source.tar.gz alarm@usque.ru:~/pelican
+
+deploy: ## deploy to pi
+	ssh alarm@usque.ru -p 5566 /home/alarm/pelican/./deploy.sh
 
 ##@ Docker
 .PHONY: build push publish
