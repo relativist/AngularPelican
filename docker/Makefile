@@ -14,6 +14,7 @@ help:  ## Display this help
 ################################################################################
 
 TAG_FROM  := $(shell git rev-parse --abbrev-ref HEAD)
+NOW_DATE:= $(shell date +%Y-%m-%d)
 #TAG_BUILD := loyal-2.1.0
 TAG_BUILD := $(TAG_FROM)
 BUILD_ENV := dev
@@ -48,6 +49,9 @@ scp: ## scp to pi
 
 deploy: ## deploy to pi
 	ssh alarm@usque.ru -p 5566 /home/alarm/pelican/./deploy.sh
+
+dump: ## dump pelican schema
+	pg_dump -n pelican -h usque.ru -p 9988 -U rest -W | gzip -3 -c > pelican-$(shell date +%Y-%m-%d).gz
 
 ##@ Docker
 .PHONY: build push publish
