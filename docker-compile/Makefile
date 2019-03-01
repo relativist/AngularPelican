@@ -78,3 +78,4 @@ npm-build: ## build angular project
 
 build-all: src-clean npm-build build ## build angular project an build docker image
 
+build-and-deploy: src-clean

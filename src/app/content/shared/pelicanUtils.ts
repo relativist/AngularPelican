@@ -13,6 +13,14 @@ export default class PelicanUtils {
     return prefix + cat.name;
   }
 
+  static normalPercentOfEvent(event: EventApp, cat: Category): number {
+    const number = this.percentOfEvent(event, cat);
+    if (number > 100) {
+      return 100;
+    }
+    return number;
+  }
+
   static percentOfEvent(event: EventApp, cat: Category): number {
     if (event.score === null && event.category.simple === true) {
       return event.category.score;
@@ -21,10 +29,6 @@ export default class PelicanUtils {
     let percent = 0;
     if (event.score > 0) {
       percent += event.score * 100 / cat.score;
-
-      if (percent > 100) {
-        percent = 100;
-      }
     }
     return percent;
   }

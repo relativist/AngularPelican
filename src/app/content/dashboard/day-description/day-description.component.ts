@@ -41,34 +41,32 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    const {score} = form.value;
-    const cat = this.categories[this.dropDownCategoryIdx];
-    const event = new EventApp(score, cat, this.selectedProgressDay.date, this.authService.user);
+    let {score} = form.value;
+    const cat: Category = this.categories[this.dropDownCategoryIdx];
 
+    console.log('Cat:', cat);
+    console.log('score:', score);
     if (cat.disposable) {
-      if (cat.disposableCapacity - (score + cat.disposableDone) > 0) {
-        cat.disposableDone += score;
-      } else {
-        cat.disposableDone = cat.disposableCapacity;
+      if (score >= cat.disposableCapacity) {
         cat.deprecated = true;
       }
-      this.sub1 = this.cs.getCategoryById(cat.id.toString()).subscribe((oCat: Category) => {
-        const cTmp = oCat;
-        cTmp.disposableCapacity = cat.disposableCapacity;
-        cTmp.deprecated = cat.deprecated;
-        cTmp.disposableDone = cat.disposableDone;
-        this.sub2 = combineLatest(this.cs.updateCategory(cTmp),
-          this.eventService.createEvent(event)).subscribe((data: [Category, EventApp]) => {
+
+      const deltaDone: number = score - cat.disposableDone;
+      cat.disposableDone = score;
+
+      const event: EventApp = new EventApp(deltaDone, cat, this.selectedProgressDay.date, this.authService.user);
+
+      this.sub2 = combineLatest(
+        this.cs.updateCategory(cat),
+        this.eventService.createEvent(event)
+      ).subscribe((data: [Category, EventApp]) => {
           this.onEventEdit.emit(data[1]);
-          // this.message.text = 'Created.';
-          // window.setTimeout(() => this.message.text = '', 1000);
         });
-      });
+
     } else {
+      const event: EventApp = new EventApp(score, cat, this.selectedProgressDay.date, this.authService.user);
       this.sub3 = this.eventService.createEvent(event).subscribe((ev: EventApp) => {
         this.onEventEdit.emit(ev);
-        // this.message.text = 'Created.';
-        // window.setTimeout(() => this.message.text = '', 1000);
       });
     }
 

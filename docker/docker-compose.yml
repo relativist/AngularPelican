@@ -10,7 +10,7 @@ services:
     axpl-admin:
         image:  pelican-frontend:master-dev
         container_name: pelican-frontend
-        restart: always
+        restart: 'no'
         hostname: pelican-frontend
         networks:
             net:

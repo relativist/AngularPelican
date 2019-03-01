@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           continue;
         }
 
-        percent += PelicanUtils.percentOfEvent(eventApp, cat);
+        percent += PelicanUtils.normalPercentOfEvent(eventApp, cat);
         // if (eventApp.score > 0) {
         //   percent += eventApp.score * 100 / cat.score;
         // }
@@ -114,6 +114,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const idx = this.events.findIndex(e => e.id === event.id);
     if (idx > -1) {
       if (event.score === 0) {
+        // если пришел 0 - значит мы должны удалить Event!
         // либо удаляем
         // получаем евент по айди и апдейтим score и удаляем сам эвент
         this.eventService.getEventById(event.id).subscribe((prevEvent: EventApp) => {
@@ -123,7 +124,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.eventService.getEventById(event.id)
           .mergeMap((prevEvent: EventApp) => {
             const percentOfEvent = Math.round(PelicanUtils.percentOfEvent(prevEvent, prevEvent.category));
-            // console.log('PERCENT DELETE: ', percentOfEvent);
             return this.scoreService.operateScore(this.user.id, -percentOfEvent);
           })
           .mergeMap((newScore: Score) => {
@@ -142,10 +142,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     } else {
       // либо добавляем
-      const percentOfEvent = Math.round(PelicanUtils.percentOfEvent(event, event.category));
-      // console.log('PERCENT CREATE: ', percentOfEvent);
+      const global = Math.round(PelicanUtils.percentOfEvent(event, event.category));
       this.events.push(event);
-      this.scoreService.operateScore(this.user.id, percentOfEvent).subscribe((newScore: Score) => {
+      this.scoreService.operateScore(this.user.id, global).subscribe((newScore: Score) => {
         this.userScore = newScore;
       });
     }

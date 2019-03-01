@@ -1,10 +1,12 @@
-version: '3.3'
+---
+
+version: '3.4'
 
 services:
   angular-builder:
-    image: pelican-fronend-compile:latest
-    container_name: pelican-fronend-compile
-    restart: always
+    image: pelican-frontend-compile:latest
+    container_name: pelican-frontend-compile
+    restart: 'no'
     volumes:
       - ${SRC_DIR}:/home/node/app
 
