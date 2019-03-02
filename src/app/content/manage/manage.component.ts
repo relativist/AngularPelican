@@ -39,6 +39,9 @@ export class ManageComponent implements OnInit, OnDestroy {
         this.isLoaded = true;
         this.selectedCategory = this.categories[0];
         this.filteredCategory = this.categories.filter(c => c.parent === null);
+        const emptyCategory = new Category(null, 'NO PARENT', false, 0, false, 0, 0, false,
+          null, false, 0);
+        this.filteredCategory.push(emptyCategory);
         this.cBoxIds = this.filteredCategory.findIndex(e => e.id === this.selectedCategory.id);
       });
   }
@@ -52,6 +55,9 @@ export class ManageComponent implements OnInit, OnDestroy {
   }
 
   categoryWasEdited(cat: Category) {
+    console.log('cat:', cat);
+    console.log('cats:', this.categories);
+
     const idx = this.categories.findIndex(e => e.id === cat.id);
     if (idx >= 0) {
       this.categories[idx] = cat;
@@ -59,6 +65,9 @@ export class ManageComponent implements OnInit, OnDestroy {
       this.categories.push(cat);
     }
     this.filteredCategory = this.categories.filter(c => c.parent === null);
+    const emptyCategory = new Category(null, 'NO PARENT', false, 0, false, 0, 0, false,
+      null, false, 0);
+    this.filteredCategory.push(emptyCategory);
   }
 
   ngOnDestroy(): void {

@@ -41,13 +41,13 @@ info: ## Info about
 	@echo
 	@echo $(BUILD_CMD)
 
-tar: ## tar the sources
+tar-source: ## tar the sources
 	tar -czvf source.tar.gz ./src
 
-scp: ## scp to pi
+scp-to-pi: ## scp to pi
 	scp -P 5566 source.tar.gz alarm@usque.ru:~/pelican
 
-deploy: ## deploy to pi
+deploy-on-pi: ## deploy to pi
 	ssh alarm@usque.ru -p 5566 /home/alarm/pelican/./deploy.sh
 
 dump: ## dump pelican schema
@@ -58,11 +58,6 @@ dump: ## dump pelican schema
 
 build:  ## Build docker image. Use BUILD_ENV= (prod|...) to set build env.
 	$(BUILD_CMD)
-
-push: $(docker inspect --format={{.Created}} $(IMAGE)) ## Push docker image to repo. Use BUILD_ENV=dev (prod|...) to set build env.
-	docker push $(IMAGE)
-
-publish: build push  ## Publish docker image. Use BUILD_ENV= (prod|...) to set build env.
 
 drun: ## Run image bash.
 	docker run --rm -it $(IMAGE) bash
@@ -76,5 +71,8 @@ src-clean: ## clean angular build
 npm-build: ## build angular project
 	npm run-script build
 
-build-all: src-clean npm-build build ## build angular project an build docker image
+increment-version: ## increment version
+	npm run-script postinstall
 
+build-all: src-clean increment-version npm-build build ## build angular project an build docker image
+build-and-deploy-on-pi: src-clean increment-version npm-build tar-source scp-to-pi deploy-on-pi ## deploy on docker

@@ -37,13 +37,18 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
     if (this.dropDownCategoryId !== 0) {
       parentId = +this.dropDownCategoryId;
     }
+    console.log('parentId', parentId);
+    console.log('this.dropDownCategoryId', this.dropDownCategoryId);
+
+    const parentCategoryIdx = this.categories.findIndex(e => e.id === parentId);
+    let parentCategory = this.categories[parentCategoryIdx];
+
     let cap = 0;
     let cap_done = 0;
     if (this.cat.disposable) {
       cap = disposableCapacity;
       cap_done = disposableDone;
     }
-    let parentCategory = new Category(null, '', false, 1, false, 1, 1, false, null, false, parentId);
     if (parentId === 0) {
       parentCategory = null;
     }
@@ -72,6 +77,7 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
       if (children.length > 0) {
         ctg.parent = null;
       }
+      console.log('edit cat: ', ctg);
       this.sub2 = this.cs.updateCategory(ctg)
         .subscribe((cat: Category) => {
           this.onCategoryEdit.emit(cat);
