@@ -57,10 +57,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.events = data[0];
       this.categories = data[1];
       this.userScore = data[2];
-      this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name));
+      this.categories = this.categories.sort((a, b) => a.name.localeCompare(b.name))
+        .sort((a, b) => PelicanUtils.prettyCatName(a).localeCompare(PelicanUtils.prettyCatName(b)));
       this.actualCategories = this.categories
         .filter(e => e.deprecated === false && e.parent !== null)
-        .filter(e => e.parent !== null)
+        // .filter(e => e.parent !== null)
         .sort((a, b) => PelicanUtils.prettyCatName(a).localeCompare(PelicanUtils.prettyCatName(b)));
       let today = moment();
       this.progresses.push(this.calculateProcessDay(moment().format(this.format)));
@@ -117,12 +118,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // если пришел 0 - значит мы должны удалить Event!
         // либо удаляем
         // получаем евент по айди и апдейтим score и удаляем сам эвент
-        this.eventService.getEventById(event.id).subscribe((prevEvent: EventApp) => {
-          console.log('prevEvent:', prevEvent);
-        });
+        // this.eventService.getEventById(event.id).subscribe((prevEvent: EventApp) => {
+        //   console.log('prevEvent:', prevEvent);
+        // });
 
         this.eventService.getEventById(event.id)
           .mergeMap((prevEvent: EventApp) => {
+            console.log('prevEvent:', prevEvent);
             const percentOfEvent = Math.round(PelicanUtils.percentOfEvent(prevEvent, prevEvent.category));
             return this.scoreService.operateScore(this.user.id, -percentOfEvent);
           })
