@@ -1,11 +1,11 @@
 {
   "name": "pelican",
-  "version": "1.10.12",
+  "version": "1.11.13",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod  --base-href /pelican/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
