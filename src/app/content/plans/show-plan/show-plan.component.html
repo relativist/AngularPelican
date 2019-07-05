@@ -11,12 +11,32 @@
           [ngClass]="{
           'active': cat.id === selectedCat.id,
           'list-group-item-secondary': cat.isFinished,
-          'list-group-item-success': cat.score > 100,
+          'list-group-item-success': cat.score >= 100,
           'list-group-item-info': cat.score < 100 && cat.score >= 50,
           'list-group-item-warning': cat.score < 50 && cat.score >=0,
           'list-group-item-danger': cat.score < 0
           }"
-          *ngFor="let cat of categories | grandFilter: filterNotFinished">
+          *ngFor="let cat of positiveCategories | grandFilter: filterNotFinished">
+        {{cat.name +': '+cat.score}}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Покупки</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <ul class="list-group">
+      <li class="list-group-item"
+          (click)="selectPlan(cat)"
+          [ngClass]="{
+          'active': cat.id === selectedCat.id,
+          'list-group-item-danger': cat.score < 0
+          }"
+          *ngFor="let cat of negativeCategories | grandFilter: filterNotFinished">
         {{cat.name +': '+cat.score}}
       </li>
     </ul>

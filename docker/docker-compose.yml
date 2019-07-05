@@ -1,5 +1,3 @@
----
-
 version: '3.4'
 
 networks:
@@ -7,14 +5,17 @@ networks:
 
 services:
 
-    axpl-admin:
-        image:  pelican-frontend:master-dev
-        container_name: pelican-frontend
-        restart: 'no'
-        hostname: pelican-frontend
-        networks:
-            net:
-                aliases:
-                    - pelican-frontend
-        ports:
-          - 80:80
+    pelican:
+      image:  nginx
+      container_name: pelican-nginx
+      restart: 'no'
+      hostname: pelican-nginx
+      volumes:
+        - ./src:/var/www/pelican
+        - ./nginx:/etc/nginx
+      networks:
+        net:
+          aliases:
+            - pelican-nginx
+      ports:
+        - 80:80

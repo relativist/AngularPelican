@@ -5,6 +5,27 @@
     </div>
   </div>
   <div class="card-block">
+
+    <div class="form-group">
+
+      <label class="control-label" for="e-select-category">Категория:</label>
+      <select
+        id="e-select-category"
+        class="form-control"
+        name="parentIdx"
+        [ngModel]="selectedParent"
+        (ngModelChange)="onChangeParentCategoryModel($event)"
+
+      >
+        <option
+          *ngFor="let c of parentCategories"
+          [ngValue]="c"
+        >{{c.name}}
+        </option>
+      </select>
+    </div>
+
+
     <ul class="list-group">
       <li class="list-group-item"
           (click)="selectCategory(cat)"
@@ -12,10 +33,11 @@
           'active': cat.id === selectedCat.id,
           'list-group-item-warning': cat.deprecated
           }"
-          *ngFor="let cat of categories | grandFilter: isNotDeprecated">
+          *ngFor="let cat of childCategories | grandFilter: isNotDeprecated">
         {{prettyCatName(cat)}}
       </li>
     </ul>
+
   </div>
 </div>
 

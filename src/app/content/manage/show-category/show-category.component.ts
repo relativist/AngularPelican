@@ -13,11 +13,17 @@ export class ShowCategoryComponent implements OnInit {
   @Input() selectedCat: Category;
   @Input() categories: Category[] = [];
   @Output() onCategorySelect = new EventEmitter<Category>();
+  public selectedParent: Category = null;
+  public parentCategories: Category[] = null;
+  public childCategories: Category[] = null;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.parentCategories = this.categories.filter(e => e.parent === null);
+    this.selectedParent = this.parentCategories[0];
+    this.refreshChilds(this.selectedParent);
   }
 
   prettyCatName(cat: Category): string {
@@ -34,5 +40,17 @@ export class ShowCategoryComponent implements OnInit {
 
   isDeprecated(cat: Category) {
     return cat.deprecated;
+  }
+
+  onChangeParentCategoryModel(cat: Category) {
+    this.selectedCat = cat;
+    this.onCategorySelect.emit(cat);
+    this.refreshChilds(cat);
+  }
+
+  private refreshChilds(cat: Category) {
+    this.childCategories = this.categories
+      .filter(e => e.parent !== null)
+      .filter(e => e.parent.id === cat.id);
   }
 }

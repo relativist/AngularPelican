@@ -13,18 +13,31 @@
     <form #formGroup="ngForm" (ngSubmit)="onSubmit(formGroup)">
       <div class="form-group">
 
-        <label class="control-label" for="e-select-category">Выполнить задачу:</label>
+        <label class="control-label" for="e-select-category-parent">Категория:</label>
         <select
-          id="e-select-category"
+          id="e-select-category-parent"
+          class="form-control"
+          name="parentIdx"
+          (change)="onParentSelect($event)"
+        >
+          <option
+            *ngFor="let c of parentCategories; index as i"
+            [value]="i"
+          >{{c.parent !== null ? c.parent.name + ': ' : ''}}{{c.name}}
+          </option>
+        </select>
+
+        <label class="control-label" for="e-select-category-child">Тип:</label>
+        <select
+          id="e-select-category-child"
           class="form-control"
           name="parentIdx"
           [(ngModel)]="dropDownCategoryIdx"
-          (change)="onCategoryChange()"
+          (change)="onChildSelect($event)"
           [ngModelOptions]="{standalone: true}"
-          #parentIdx="ngModel"
         >
           <option
-            *ngFor="let c of categories; index as i"
+            *ngFor="let c of childCategories; index as i"
             [value]="i"
           >{{c.parent !== null ? c.parent.name + ': ' : ''}}{{c.name}}
           </option>

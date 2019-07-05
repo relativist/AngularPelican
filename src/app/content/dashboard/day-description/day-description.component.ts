@@ -21,6 +21,9 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   @Input() selectedProgressDay: ProgressDay;
   @Input() categories: Category[] = [];
   @Input() events: EventApp[] = [];
+  public parentCategories: Category[] = [];
+  public childCategories: Category[] = [];
+
   // message: Message;
   dropDownCategoryIdx = 0;
   score_to_add = 1;
@@ -38,14 +41,18 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.parentCategories = this.categories.filter(e => e.parent === null);
+    this.childCategories = this.categories.filter(e => e.parent !== null);
   }
 
   onSubmit(form: NgForm) {
-    let {score} = form.value;
-    const cat: Category = this.categories[this.dropDownCategoryIdx];
+    const {score} = form.value;
+    const cat: Category = this.childCategories[this.dropDownCategoryIdx];
 
-    console.log('Cat:', cat);
-    console.log('score:', score);
+    if (cat === null) {
+      return;
+    }
+
     if (cat.disposable) {
       if (score >= cat.disposableCapacity) {
         cat.deprecated = true;
@@ -60,8 +67,8 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
         this.cs.updateCategory(cat),
         this.eventService.createEvent(event)
       ).subscribe((data: [Category, EventApp]) => {
-          this.onEventEdit.emit(data[1]);
-        });
+        this.onEventEdit.emit(data[1]);
+      });
 
     } else {
       const event: EventApp = new EventApp(score, cat, this.selectedProgressDay.date, this.authService.user);
@@ -77,7 +84,16 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
 
   }
 
-  onCategoryChange() {
+  onParentSelect(event) {
+    const parentIdx = event.target.value;
+    const parent = this.parentCategories[parentIdx];
+    this.childCategories = this.categories
+      .filter(e => e.parent !== null)
+      .filter(e => e.parent.id === parent.id);
+  }
+
+  onChildSelect(event) {
+    this.dropDownCategoryIdx = event.target.value;
   }
 
 
@@ -118,10 +134,10 @@ export class DayDescriptionComponent implements OnInit, OnDestroy {
         // window.setTimeout(() => this.message.text = '', 1000);
       });
     }
-    // console.log(this.events);
   }
 
   remove(event: EventApp) {
+    console.log('delete event: ', event);
     const idx = this.events.indexOf(event);
     const eventToDelete = this.events[idx];
     if (idx > -1) {
